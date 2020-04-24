@@ -15,5 +15,18 @@
   "bugs": {
     "url": "https://github.com/Lambda-School-Labs/coach-me-be/issues"
   },
-  "homepage": "https://github.com/Lambda-School-Labs/coach-me-be#readme"
+  "homepage": "https://github.com/Lambda-School-Labs/coach-me-be#readme",
+  "dependencies": {
+    "bcrypt": "^4.0.1",
+    "cors": "^2.8.5",
+    "ddos": "^0.2.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "helmet": "^3.22.0",
+    "knex": "^0.21.0",
+    "log4js": "^6.2.1",
+    "nodemon": "^2.0.3",
+    "passport": "^0.4.1",
+    "pg": "^8.0.3"
+  }
 }
