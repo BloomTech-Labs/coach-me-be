@@ -4,7 +4,11 @@
   "description": "CoachMe Backend",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon -r dotenv/config index.js",
+    "start": "node -r dotenv/config index.js",
+    "migrate": "node -r dotenv/config ./node_modules/knex/bin/cli.js migrate:latest",
+    "rollback": "node -r dotenv/config ./node_modules/knex/bin/cli.js migrate:rollback",
+    "seed": "node -r dotenv/config ./node_modules/knex/bin/cli.js seed:run"
   },
   "repository": {
     "type": "git",
