@@ -42,6 +42,7 @@ exports.seed = async function (knex) {
 			email: "keliscar@gmailcom",
 			phone: 5024567894,
 			dob: "22-JUL-1992",
+			password: "password123",
 		},
 		{
 			id: "46b97b6f-f3bf-494a-a840-44d3393d376f",
@@ -50,6 +51,7 @@ exports.seed = async function (knex) {
 			email: "jkahill@gmail.com",
 			phone: 5024783254,
 			dob: "03-OCT-1990",
+			password: "password123",
 		},
 	]);
 };
