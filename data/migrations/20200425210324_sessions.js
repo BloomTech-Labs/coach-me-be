@@ -1,0 +1,16 @@
+exports.up = async function (knex) {
+	await knex.schema.createTable("sessions", (tbl) => {
+		tbl.uuid("id").primary();
+		tbl.timestamp("submitted_at").defaultTo(knex.fn.now());
+		tbl.date("session_date").notNull();
+		tbl.text("notes").notNull();
+		tbl.string("coach_id").notNull();
+		tbl.foreign("coach_id").references("coach.id");
+		tbl.string("client_id").notNull();
+		tbl.foreign("client_id").references("client.id");
+	});
+};
+
+exports.down = async function (knex) {
+	await knex.schema.dropTableIfExists("sessions");
+};
