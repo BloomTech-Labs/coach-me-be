@@ -1,5 +1,6 @@
 const express = require('express');
-const Ddos = new require('ddos')({burst: 10, limit: 15});
+const Ddos = require('ddos');
+const ddos = new Ddos({burst: 10, limit: 15})
 const logger = require('log4js').configure({
     appenders: {errors: {type: 'file', filename: 'errors.log' }},
     categories: {default: {appenders: ['errors'], level: 'error'}}
@@ -10,8 +11,8 @@ const app = express();
 app.use(express.json());
 app.use(require('cors')());
 app.use(require('helmet')());
-app.use(Ddos.express);
-app.use('/api', require('./routes/routerIndex'));
+app.use(ddos.express);
+app.use('/api', require('./routes/router-index'));
 
 app.use((error, req, res, next) =>{
     logger.error(error);
