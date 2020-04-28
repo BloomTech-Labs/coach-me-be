@@ -8,7 +8,7 @@ exports.up = async function (knex) {
 		tbl.string("password").notNull();
 		tbl.string("profile_pic_id");
 		tbl.string("creds_id");
-		table.timestamp("created_at").defaultTo(knex.fn.now());
+		tbl.timestamp("created_at").defaultTo(knex.fn.now());
 		tbl.timestamp("last_logged_in");
 	});
 };

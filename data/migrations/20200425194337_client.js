@@ -8,8 +8,12 @@ exports.up = async function (knex) {
 		tbl.date("dob").notNull();
 		tbl.string("password").notNull();
 		tbl.string("profile_pic_id");
-		table.timestamp("created_at").defaultTo(knex.fn.now());
+		tbl.timestamp("created_at").defaultTo(knex.fn.now());
 		tbl.timestamp("last_logged_in");
+		tbl.integer('height').notNull();
+		tbl.string('sex').notNull();
+		tbl.string('gender');
+		tbl.text('med_list');
 	});
 };
 

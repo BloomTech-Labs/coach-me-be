@@ -7,7 +7,7 @@ exports.seed = async function (knex) {
 			email: "derekpeters@gmail.com",
 			phone: 5029876732,
 			password: "password123",
-			profile_pic_id: 1093,
+			profile_pic_id: "1093",
 			creds_id: "123405",
 		},
 		{
@@ -17,8 +17,8 @@ exports.seed = async function (knex) {
 			email: "thomasbarrett@gmail.com",
 			phone: 5067934783,
 			password: "password123",
-			profile_pic_id: 29384,
-			creds_id: 304958,
+			profile_pic_id: "29384",
+			creds_id: "304958",
 		},
 	]);
 };
