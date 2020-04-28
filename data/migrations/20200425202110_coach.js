@@ -1,10 +1,10 @@
 exports.up = async function (knex) {
 	await knex.schema.createTable("coach", (tbl) => {
-		tbl.uuid("id").primary();
+		tbl.uuid("id").primary().defaultTo(knex.raw("uuid_generate_v4()"));
 		tbl.string("first_name", 20).notNull();
 		tbl.string("last_name", 20).notNull();
 		tbl.string("email").notNull();
-		tbl.integer("phone", 10).notNull();
+		tbl.bigInteger("phone", 10).notNull();
 		tbl.string("password").notNull();
 		tbl.string("profile_pic_id");
 		tbl.string("creds_id");

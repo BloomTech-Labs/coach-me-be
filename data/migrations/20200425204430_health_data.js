@@ -1,6 +1,6 @@
 exports.up = async function (knex) {
 	await knex.schema.createTable("health_data", (tbl) => {
-		tbl.uuid("id").primary();
+		tbl.uuid("id").primary().defaultTo(knex.raw("uuid_generate_v4()"));
 		tbl.uuid("coach_id").notNull();
 		tbl.foreign("coach_id").references("coach.id");
 		tbl.uuid("client_id").notNull();
