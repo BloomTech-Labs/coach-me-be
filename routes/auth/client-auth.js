@@ -1,6 +1,5 @@
 const router = require('express').Router();
-const JwTStrategy = require('passport-jwt').Strategy,
-ExtractJwt = require('passport-jwt').ExtractJwt;
+const passport = require("passport")
 const db = require('../../models/client-model');
 const Clients = new db();
 const bcrypt = require("bcrypt");
@@ -16,6 +15,7 @@ router.post('/register', async (req, res, next)=>{
         // (?=.*[0-9]) contains any number
         // (?=.*[!@#\$%\^&\*]) contains any special character
         // (?=.{8,}) string length of at lest 8 characters (You can add a second number to have the length be between those)
+        
         const passRegex = new RegExp("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
 
         // All of this could probably move to a middleware later. Checking required fields are there,
@@ -31,8 +31,7 @@ router.post('/register', async (req, res, next)=>{
         if(!passRegex.test(password)){
             return res.status(400).json("Password must contain at least 8 characters, one upper case alphabetical character, and a number.");
         }
-        const user = await Clients.getUserByEmail(email);
-
+        const user = await Clients.getClientByEmail(email);
         if(user){
             return res.status(402).json("There is an account associated with your email address. Try loggin in.");
         }
@@ -48,6 +47,19 @@ router.post('/register', async (req, res, next)=>{
         next(error)
     }
 });
+
+router.post('/login', async (req, res, next)=>{
+    passport.authenticate('local', (info, user, err) => {
+        if (err){
+            return res.status(401).json(info.message)
+        }
+
+        if(user){
+           
+        }
+
+    })(req, res, next);
+})
 
 
 module.exports = router;
