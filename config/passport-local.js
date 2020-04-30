@@ -1,6 +1,5 @@
 const LocalStrategy = require("passport-local").Strategy;
-const db = require('../models/client-model');
-const User = new db();
+const User = require('../models/client-model');
 const bcrypt = require("bcrypt");
 
 function localLogin(passport){

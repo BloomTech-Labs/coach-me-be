@@ -1,4 +1,4 @@
-const db = require('../data/db_config')
+const db = require('../data/db_config');
 const UserModel = require('./user-model');
 
 class ClientModel extends UserModel{
