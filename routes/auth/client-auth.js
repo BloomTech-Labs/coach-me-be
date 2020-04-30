@@ -51,11 +51,10 @@ router.post('/register', async (req, res, next)=>{
 router.post('/login', async (req, res, next)=>{
     passport.authenticate('local', (info, user, err) => {
         if (err){
-            return res.status(401).json(info.message)
+            return res.status(401).json(err.message)
         }
-
         if(user){
-           
+           return res.json("What are we going to do? :(")
         }
 
     })(req, res, next);

@@ -6,7 +6,6 @@ const bcrypt = require("bcrypt");
 function localLogin(passport){
     passport.use(new LocalStrategy({usernameField: 'email'}, async (email, password, done)=>{
         const user = await User.getClientByEmail(email);
-
         if(!user){
             return done(null, false, {message: 'User not found'});
         }

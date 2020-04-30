@@ -7,7 +7,7 @@ exports.seed = async function (knex) {
 			email: "gthomas@gmail.com",
 			phone: 502332404,
 			dob: "January 8, 1999",
-			password: "password123",
+			password: "$2b$10$6.bJXBi5wO4b0u.f8anga.UrVw24UYTQoPPul4pYruisg/BUV1diW",
 			height: 5,
 			sex: "male",
 			gender: "male"
@@ -19,7 +19,7 @@ exports.seed = async function (knex) {
 			email: "tingle@gmail.com",
 			phone: 502456683,
 			dob: "January 8, 1999",
-			password: "password123",
+			password: "$2b$10$6.bJXBi5wO4b0u.f8anga.UrVw24UYTQoPPul4pYruisg/BUV1diW",
 			height: 5,
 			sex: "female",
 			gender: ""
@@ -31,7 +31,7 @@ exports.seed = async function (knex) {
 			email: "btaveras@gmail.com",
 			phone: 406658980,
 			dob: "January 8, 1999",
-			password: 'password123',
+			password: '$2b$10$6.bJXBi5wO4b0u.f8anga.UrVw24UYTQoPPul4pYruisg/BUV1diW',
 			height: 5,
 			sex: "male",
 			gender: ""
@@ -43,7 +43,7 @@ exports.seed = async function (knex) {
 			email: "burleson@gmail.com",
 			phone: 859608987,
 			dob: "January 8, 1999",
-			password: "password123",
+			password: "$2b$10$6.bJXBi5wO4b0u.f8anga.UrVw24UYTQoPPul4pYruisg/BUV1diW",
 			height: 5,
 			sex: "male",
 			gender: ""
@@ -55,7 +55,7 @@ exports.seed = async function (knex) {
 			email: "keliscar@gmailcom",
 			phone: 502456789,
 			dob: "January 8, 1999",
-			password: "password123",
+			password: "$2b$10$6.bJXBi5wO4b0u.f8anga.UrVw24UYTQoPPul4pYruisg/BUV1diW",
 			height: 5,
 			sex: "female",
 			gender: ""
@@ -67,7 +67,7 @@ exports.seed = async function (knex) {
 			email: "jkahill@gmail.com",
 			phone: 502478325,
 			dob: "January 8, 1999",
-			password: "password123",
+			password: "$2b$10$6.bJXBi5wO4b0u.f8anga.UrVw24UYTQoPPul4pYruisg/BUV1diW",
 			height: 5,
 			sex: "male",
 			gender: "male"
