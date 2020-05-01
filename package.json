@@ -22,6 +22,8 @@
   "homepage": "https://github.com/Lambda-School-Labs/coach-me-be#readme",
   "dependencies": {
     "bcrypt": "^4.0.1",
+    "connect-session-knex": "^1.6.0",
+    "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "ddos": "^0.2.1",
     "dotenv": "^8.2.0",
@@ -29,6 +31,7 @@
     "express-session": "^1.17.1",
     "helmet": "^3.22.0",
     "install": "^0.13.0",
+    "jsonwebtoken": "^8.5.1",
     "knex": "^0.21.0",
     "log4js": "^6.2.1",
     "nodemon": "^2.0.3",

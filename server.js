@@ -11,23 +11,38 @@ const passport = require('passport');
 // Passport config
 require('./config/passport-local')(passport);
 
-const session = require('express-session')
 const app = express();
 
 // Basic middleware
 app.use(express.json());
-
+app.use(require("cookie-parser")(process.env.SESSION_SECRET))
 // Security
 app.use(require('cors')());
 app.use(require('helmet')());
 app.use(ddos.express);
 
 // Sessions
+const session = require('express-session')
+const KnexSessionStore = require("connect-session-knex")(session);
+
+const Knex = require("knex");
+const knexfile = require('./knexfile')
+const knex = Knex(knexfile[process.env.NODE_ENV]);
+const store = new KnexSessionStore({
+    knex: knex,
+    tablename: 'auth_sessions'
+})
+
 
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: true,
+    cookie: {
+        secure: true,
+        maxAge: 10000
+    },
+    store: store
 }));
 
 // Passport middleware

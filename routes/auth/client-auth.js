@@ -2,8 +2,7 @@ const router = require('express').Router();
 const passport = require("passport");
 const Clients = require('../../models/client-model');
 const bcrypt = require("bcrypt");
-
-
+const jwt = require('jsonwebtoken')
 router.post('/register', async (req, res, next)=>{
     try {
         const {first_name, last_name, email, phone, password, confirm_password, height, sex} = req.body;
@@ -30,7 +29,7 @@ router.post('/register', async (req, res, next)=>{
         if(!passRegex.test(password)){
             return res.status(400).json("Password must contain at least 8 characters, one upper case alphabetical character, and a number.");
         }
-        const user = await Clients.getClientByEmail(email);
+        const user = await Clients.getUserByEmail(email);
         if(user){
             return res.status(402).json("There is an account associated with your email address. Try loggin in.");
         }
@@ -53,11 +52,16 @@ router.post('/login', async (req, res, next)=>{
             return res.status(401).json(err.message)
         }
         if(user){
-           return res.json("What are we going to do? :(")
+            return res.json('success')
         }
 
     })(req, res, next);
-})
+});
+
+router.post('/logout', async (req, res, next)=>{
+    console.log(req.signedCookies)
+    return res.clearCookie('token').json('Logged out successfully.')
+});
 
 
 module.exports = router;

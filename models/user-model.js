@@ -4,7 +4,7 @@ class UserModel{
     async getUserByEmail(email, userType = 'client'){
         try {
             const user = await db(userType)
-            .where('email', email);
+            .where('email', email).first()
             return user;
             
         } catch (error) {
