@@ -1,4 +1,4 @@
-function coachAuthErrorHandler(){
+function clientAuthErrorHandler(){
     return (req, res, next) =>{
         const {first_name, last_name, email, phone, password, confirm_password, height, sex} = req.body;
         // Regular expresion that tests if the password is strong enough
@@ -25,4 +25,4 @@ function coachAuthErrorHandler(){
     }
 }
 
-module.exports = coachAuthErrorHandler;
+module.exports = clientAuthErrorHandler;

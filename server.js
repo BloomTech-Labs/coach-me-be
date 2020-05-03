@@ -16,6 +16,7 @@ const app = express();
 // Basic middleware
 app.use(express.json());
 app.use(require("cookie-parser")(process.env.SESSION_SECRET))
+
 // Security
 app.use(require('cors')());
 app.use(require('helmet')());
@@ -32,7 +33,6 @@ const store = new KnexSessionStore({
     knex: knex,
     tablename: 'auth_sessions'
 })
-
 
 app.use(session({
     secret: process.env.SESSION_SECRET,
@@ -59,9 +59,9 @@ app.use('/api', require('./routes/router-index'));
 
 app.use((error, req, res, next) =>{
     logger.error(error);
-    return res.status(500).json({
-        message: "There was an internal server error."
-    })
+    return res.status(error.status ? error.status : 500).json({
+        message: error.message ? error.message : "There was an internal server error."
+    });
 });
 
 
