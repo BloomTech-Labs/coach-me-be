@@ -19,19 +19,35 @@ router.post('/register', require("../../middleware/auth/clientAuthErrorHandler")
         next(error)
     }
 });
-router.post('/login', async (req, res, next)=>{
-    passport.authenticate('local', (info, user, err) => {
-        if (err){
-            return res.status(401).json(err.message)
-        }
-        if(user){
-            return res.json('success')
-        }
-    })(req, res, next);
+
+passport.serializeUser(function(user, done) {
+    console.log('serialized')
+    done(null, {id: user.id, type: 'client'});
 });
+passport.deserializeUser(function(user, done) {
+    console.log('deserialized')
+    done(null, user);
+});
+           
+router.post('/login', 
+    function(req, res, next) {
+        if(req?.session?.passport?.user) return res.redirect('/dashboard')
+        passport.authenticate('local', 
+        function(err, user, info) {
+            if(!user) return res.send(info.message)
+                req.login(user, function(error) {
+                    if (error) return next(error);
+                    return res.json('Login successful');
+                });
+        })(req, res, next);
+    }
+);
+                
 router.post('/logout', async (req, res, next)=>{
-    console.log(req.signedCookies)
+    req.logOut()
+    console.log(req?.user)
     return res.clearCookie('token').json('Logged out successfully.')
 });
+
 
 module.exports = router;

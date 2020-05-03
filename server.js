@@ -14,12 +14,21 @@ require('./config/passport-local')(passport);
 const app = express();
 
 // Basic middleware
+app.use(require('cors')({
+    methods: ['GET', 'POST'],
+    credentials: true
+}))
 app.use(express.json());
 app.use(require("cookie-parser")(process.env.SESSION_SECRET))
 // Security
 app.use(require('cors')());
 app.use(require('helmet')());
 app.use(ddos.express);
+
+// Passport middleware
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Sessions
 const session = require('express-session')
@@ -33,22 +42,16 @@ const store = new KnexSessionStore({
     tablename: 'auth_sessions'
 })
 
-
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: true,
     saveUninitialized: true,
     cookie: {
-        secure: true,
-        maxAge: 10000
+        expires: 100000
     },
     store: store
 }));
 
-// Passport middleware
-
-app.use(passport.initialize());
-app.use(passport.session());
 
 // Routes
 

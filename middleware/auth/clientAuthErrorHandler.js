@@ -1,4 +1,4 @@
-function coachAuthErrorHandler(){
+function clientAuthErrorHandler(){
     return (req, res, next) =>{
         const {first_name, last_name, email, phone, password, confirm_password, height, sex} = req.body;
         // Regular expresion that tests if the password is strong enough
@@ -21,8 +21,7 @@ function coachAuthErrorHandler(){
         if(!passRegex.test(password)){
             return res.status(400).json("Password must contain at least 8 characters, one upper case alphabetical character, and a number.");
         }
-        next()
+        next();
     }
 }
-
-module.exports = coachAuthErrorHandler;
+module.exports = clientAuthErrorHandler;
