@@ -44,8 +44,7 @@ router.post('/login',
 );
                 
 router.post('/logout', async (req, res, next)=>{
-    req.logOut()
-    console.log(req?.user)
+    req.session.destroy()
     return res.clearCookie('token').json('Logged out successfully.')
 });
 
