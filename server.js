@@ -50,7 +50,7 @@ app.use(session({
     cookie: {
         // 30 minutes
         expires: 1800000, 
-        maxAge: 1000
+        maxAge: 1000000000
     },
     store: store
 }));

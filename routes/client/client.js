@@ -4,10 +4,11 @@ const healthDataRouter = require('./client-health-data');
 
 const clientDB = require('../../models/client-model');
 
-const auth = require('../../middleware/auth/globalAuth');
+const authware = require('../../middleware/auth/globalAuth');
 const clientDataMiddleware = require('../../middleware/client-data/client-data-middleware');
 
 router.use('/:id', clientDataMiddleware.checkID);
+// router.use('/:id', authware.private);
 router.use('/:id/data', healthDataRouter);
 
 router.get('/', async (req, res) => {
@@ -26,11 +27,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.get('/testData', auth.protected, async (req, res) => {
-    res.json({'message': 'sup'});
-})
-
-router.put('/:id', clientDataMiddleware.isClient ,async(req, res) => {
+router.put('/:id', async(req, res) => {
     try {
         res.json( await clientDB.updateClientData(req.params.id, req.body) );
     } catch (error) {

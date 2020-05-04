@@ -11,28 +11,6 @@ class ClientDataMiddleware {
             next( err )
         }
     }
-
-    async needToKnow(req, res, next){
-        try{
-            // check [token?] for user type and ID, if user: ensure user ID matches requested ID and active session for user
-            // if coach: ensure coach is requested user's coach and session matches coach's active session
-            next();
-        } catch(err){
-            next( err )
-        }
-    }
-
-    
-
-    async isClient(req, res, next){
-        try{
-            // check [token?] for user ID and ensure user ID matches requested ID and active session for user
-            next();
-        } catch(err){
-            next( err )
-        }
-    }
-
 }
 
 module.exports = new ClientDataMiddleware();

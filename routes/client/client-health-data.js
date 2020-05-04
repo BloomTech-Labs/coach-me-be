@@ -1,17 +1,17 @@
 const router = require('express').Router({mergeParams: true});
 const clientDB = require('../../models/client-model');
-const clientDataMiddleware = require('../../middleware/client-data/client-data-middleware');
+const authWare = require('../../middleware/auth/globalAuth');
 
-router.get('/', clientDataMiddleware.needToKnow, async (req, res) => {
+router.get('/', /*authWare.private,*/ async (req, res) => {
     try {
-        res.json( await  clientDB.getHealthData( req.params.id, req.query?.count, req.query?.metrics ) );
+        res.json( await clientDB.getHealthData( req.params.id, req.query?.count, req.query?.metrics ) );
     } catch (err){
         console.log('Here\'s the error: ', error)
         res.json(error);
     }
 });
 
-router.post('/', clientDataMiddleware.isClient, async (req, res) => {
+router.post('/', /*authWare.userOnly,*/ async (req, res) => {
     try {
         res.json( await clientDB.addHealthData( req.params.id, req.body ) );
     } catch (error){

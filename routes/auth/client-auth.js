@@ -1,10 +1,6 @@
 const router = require('express').Router();
 const passport = require("passport");
-const bcrypt = require("bcrypt");
-
-// 
-const Authd = require('../../middleware/auth/globalAuth');
-// 
+const bcrypt = require("bcrypt"); 
 
 const Clients = require('../../models/client-model');
 
@@ -34,7 +30,7 @@ passport.deserializeUser(function(user, done) {
     done(null, user);
 });
            
-router.post('/login', Authd.protected ,async (req, res, next) => {
+router.post('/login', async (req, res, next) => {
     try {
         // If there is a session already, then you get redirected to the route
         // /dashboard. I chose this at random, so we may want to change it :)
@@ -42,8 +38,8 @@ router.post('/login', Authd.protected ,async (req, res, next) => {
         passport.authenticate('local', {userProperty: 'email'},
         (err, user, info) => {
             if(!user) return res.json(info.message);
-
             req.login(user, function(error) {
+                console.log('!!!', req.session.passport);
                 if (error) throw error;
                 res.json('Login successful');
             });
@@ -54,6 +50,7 @@ router.post('/login', Authd.protected ,async (req, res, next) => {
     }
 );     
 router.post('/logout', async (req, res, next)=>{
+    console.log(req.session)
     try {
         req.session.destroy();
         return res.clearCookie('token').json('Logged out successfully.');
