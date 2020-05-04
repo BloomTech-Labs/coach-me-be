@@ -21,6 +21,16 @@ class ClientModel extends UserModel{
         }
     }
 
+    async deleteClient(id){
+        try{
+            return await db('client')
+                        .where({id})
+                        .del();
+        } catch(err){
+            throw(err);
+        }
+    }
+
     async getCoach(client_id){
         try{
             return await db('coach_client')

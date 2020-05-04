@@ -2,7 +2,7 @@ const httpError = require('http-errors');
 
 const Client = require('../../models/client-model');
 
-class Authentic {
+class AccessController {
 
     async protected(req, res, next){
         if( !req.session.passport ) next(httpError(401, 'Please log in to continue.'));
@@ -28,4 +28,4 @@ class Authentic {
     }
 }
 
-module.exports = new Authentic();
+module.exports = new AccessController();

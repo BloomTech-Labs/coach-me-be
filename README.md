@@ -32,15 +32,35 @@ To get the server running locally:
 
 🚫This is a placeholder, replace the endpoints, access controll, and descriptioin to match your project
 
-#### Organization Routes
+#### Authenticaton & Registration Routes
 
-| Method | Endpoint                | Access Control | Description                                  |
-| ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
-| PUT    | `/organizatoins/:orgId` | owners         | Modify an existing organization.             |
-| DELETE | `/organizations/:orgId` | owners         | Delete an organization.                      |
+| Method | Endpoint                |    Access Control    | Description                                  |
+| ------ | ----------------------- | -------------------- | -------------------------------------------- |
+| GET    | `/organizatoins/:orgId` | owners               | Returns the information for an organization. |
+| PUT    | `/organizatoins/:orgId` | owners               | Modify an existing organization.             |
+| DELETE | `/organizations/:orgId` | owners               | Delete an organization.                      |
 
-#### User Routes
+#### Client Routes
+
+| Method | Endpoint                |    Access Control    | Description                                  |
+| ------ | ----------------------- | -------------------- | -------------------------------------------- |
+| GET    | `/client/:clientID`     |   client and coach   | Account/Bio information for a single client  |
+| PUT    | `/client/:clientID`     |        client        | Modify selected client biographical data     |
+| DELETE | `/client/:clientID`     |        client        | Delete a client.                             |
+| ------ | ----------------------- | -------------------- | -------------------------------------------- |
+|    *   | `/client/:clientID/data`|   Client Health Data |                      *                       |
+| ------ | ----------------------- | -------------------- | -------------------------------------------- |
+| GET    | `/`                     |   client and coach   | Returns the health data for a single client  |
+| POST   | `/`                     |        client        | Submit Health Metric Data                    |
+| PUT    | `/:recordID`            |        client        | Update Health Metric Data Record Insertion   |
+| Delete | `/:recordID`            |        client        | Delete Health Metric Data Record Insertion   |
+| ------ | ----------------------- | -------------------- | -------------------------------------------- |
+|  `/client/:clientID/sessions`  | Client-Coach Session Notes |                  *                       |
+| ------ | ----------------------- | -------------------- | -------------------------------------------- |
+| GET    | `/`                     |   client and coach   | Returns all session notes for client         |
+| GET    | `/:sessionID`           |   client and coach   | Returns session notes for a single session   |
+
+#### Coach Routes
 
 | Method | Endpoint                | Access Control      | Description                                        |
 | ------ | ----------------------- | ------------------- | -------------------------------------------------- |
@@ -55,18 +75,22 @@ To get the server running locally:
 
 🚫This is just an example. Replace this with your data model
 
-#### 2️⃣ ORGANIZATIONS
+#### 2️⃣ CLIENT
 
 ---
 
 ```
 {
   id: UUID
-  name: STRING
-  industry: STRING
-  paid: BOOLEAN
-  customer_id: STRING
-  subscription_id: STRING
+  first_name: STRING
+  last_name: STRING
+  email: STRING
+  profile_pic_id: STRING
+  created_at: TIMESTAMP
+  height: INTEGER
+  sex: STRING
+  gender: STRING
+  med_list: TEXT
 }
 ```
 

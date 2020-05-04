@@ -41,8 +41,6 @@ const store = new KnexSessionStore({
     tablename: 'auth_sessions'
 });
 
-app.use(passport.session());
-
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: true,
@@ -55,15 +53,14 @@ app.use(session({
     store: store
 }));
 
+app.use(passport.session());
 
 
 // Routes
-
 app.use('/api', require('./routes/router-index'));
 
 
 // Error handling
-
 app.use((error, req, res, next) =>{
     logger.error(error);
     return res.status(error.status ? error.status : 500).json({

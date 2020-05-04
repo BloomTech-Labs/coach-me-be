@@ -5,11 +5,11 @@ const helper = require('../../utils/coachMeHelpers');
 const healthDataRouter = require('./client-health-data');
 const clientDB = require('../../models/client-model');
 
-const authWare = require('../../middleware/auth/globalAuth');
+const access = require('../../middleware/auth/globalPriv');
 
 /* MIDDLEWARE */
-//router.use(authWare.protected);
-router.use('/:id', authWare.private);
+//router.use(access.protected);
+router.use('/:id', access.private);
 router.use('/:id', require('../../middleware/pathValidator').checkID);
 
 // Health Data Metrics
@@ -24,13 +24,23 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.put('/:id', /*authWare.userOnly,*/ async(req, res) => {
+router.put('/:id', /*access.userOnly,*/ async(req, res) => {
     try {
         res.json( await clientDB.updateClientData(req.params.id, req.body) );
     } catch (error) {
         helper.catchError(res, error);
     }
 });
+
+router.delete('/:id', access.userOnly, async(req, res) => {
+    try {
+        await clientDB.deleteClient(req.params.id);
+        req.session.destroy();
+        return res.clearCookie('token').json('Account deleted. Logged out successfully.');
+    } catch (error) {
+        helper.catchError(res, error);
+    }
+})
 
 /* Client-Coach Session Notes */
 router.get('/:id/sessions', async (req, res) => {
@@ -41,6 +51,6 @@ router.get('/:id/sessions', async (req, res) => {
     } catch (error) {
         helper.catchError(res, error);
     }
-})
+});
 
 module.exports = router;
