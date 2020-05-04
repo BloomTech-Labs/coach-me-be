@@ -1,5 +1,7 @@
 const express = require('express');
+const session = require('express-session');
 const Ddos = require('ddos');
+
 const ddos = new Ddos({burst: 10, limit: 15})
 const logger = require('log4js').configure({
     appenders: {errors: {type: 'file', filename: 'errors.log' }},
@@ -27,21 +29,19 @@ app.use(require('helmet')());
 app.use(ddos.express);
 
 // Passport middleware
-
 app.use(passport.initialize());
-app.use(passport.session());
 
 // Sessions
-const session = require('express-session')
-const KnexSessionStore = require("connect-session-knex")(session);
-
 const Knex = require("knex");
 const knexfile = require('./knexfile')
-const knex = Knex(knexfile[process.env.NODE_ENV]);
+const knex = require('./data/db_config');
+const KnexSessionStore = require("connect-session-knex")(session);
 const store = new KnexSessionStore({
     knex: knex,
     tablename: 'auth_sessions'
-})
+});
+
+app.use(passport.session());
 
 app.use(session({
     secret: process.env.SESSION_SECRET,
@@ -54,6 +54,7 @@ app.use(session({
     },
     store: store
 }));
+
 
 
 // Routes

@@ -8,10 +8,12 @@ function localLogin(passport) {
       { usernameField: "email" },
       async (email, password, done) => {
         const user = await User.getUserByEmail(email);
+
         if (!user) return done(null, false, { message: "User not found" });
+
         const passwordMatches = await bcrypt.compare(password, user.password);
-        if (passwordMatches) return done(null, user);
-        return done(null, false, { message: "Your password is incorrect!" });
+
+        return passwordMatches ? done(null, user) : done(null, false, { message: "Your password is incorrect!" });
       }
     )
   );

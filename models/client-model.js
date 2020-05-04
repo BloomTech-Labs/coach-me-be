@@ -1,6 +1,7 @@
 const db = require('../data/db_config');
 const httpError = require('http-errors');
 const UserModel = require('./user-model');
+
 class ClientModel extends UserModel{
     async addClient(data){
         try {

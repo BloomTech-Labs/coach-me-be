@@ -1,11 +1,18 @@
 const router = require('express').Router();
 const passport = require("passport");
-const Clients = require('../../models/client-model');
 const bcrypt = require("bcrypt");
+
+// 
+const Authd = require('../../middleware/auth/globalAuth');
+// 
+
+const Clients = require('../../models/client-model');
+
+
 router.post('/register', require("../../middleware/auth/clientAuthErrorHandler")(), async (req, res, next)=>{
     try {
         const user = await Clients.getUserByEmail(req.body.email);
-        if(user) return res.status(402).json("There is an account associated with your email address. Try loggin in.");
+        if(user) return res.status(402).json("There is an account associated with your email address. Try logging in.");
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
         await Clients.addClient({
             ...req.body,
@@ -27,17 +34,18 @@ passport.deserializeUser(function(user, done) {
     done(null, user);
 });
            
-router.post('/login', async (req, res, next) => {
+router.post('/login', Authd.protected ,async (req, res, next) => {
     try {
         // If there is a session already, then you get redirected to the route
         // /dashboard. I chose this at random, so we may want to change it :)
-        if(req?.session?.passport?.user) return res.redirect('/dashboard')
+        if(req.session?.passport?.user) return res.redirect('/dashboard');
         passport.authenticate('local', {userProperty: 'email'},
         (err, user, info) => {
             if(!user) return res.json(info.message);
+
             req.login(user, function(error) {
                 if (error) throw error;
-                return res.json('Login successful');
+                res.json('Login successful');
             });
         })(req, res, next);    
     } catch (error) {
