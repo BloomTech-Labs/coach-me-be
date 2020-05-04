@@ -34,7 +34,7 @@ router.post('/login', async (req, res, next) => {
     try {
         // If there is a session already, then you get redirected to the route
         // /dashboard. I chose this at random, so we may want to change it :)
-        if(req.session?.passport?.user) return res.redirect('/dashboard');
+        if(req.session?.passport?.user) return res.redirect(`/api/client/${req.session.passport.user.id}`);
         passport.authenticate('local', {userProperty: 'email'},
         (err, user, info) => {
             if(!user) return res.json(info.message);
