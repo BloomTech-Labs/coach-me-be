@@ -74,4 +74,4 @@ class ClientModel extends UserModel{
 
 
 }
-module.exports = new ClientModel()
+module.exports = new ClientModel();

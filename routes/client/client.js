@@ -5,19 +5,18 @@ const helper = require('../../utils/coachMeHelpers');
 const healthDataRouter = require('./client-health-data');
 const clientDB = require('../../models/client-model');
 
-const authware = require('../../middleware/auth/globalAuth');
-const pathValidator = require('../../middleware/pathValidator');
+const authWare = require('../../middleware/auth/globalAuth');
 
 /* MIDDLEWARE */
-//router.use(authware.protected);
-router.use('/:id', pathValidator.checkID);
-// router.use('/:id', authware.private);
+//router.use(authWare.protected);
+// router.use('/:id', authWare.private);
+router.use('/:id', require('../../middleware/pathValidator').checkID);
 
 // Health Data Metrics
 router.use('/:id/data', healthDataRouter);
 
 /* Client Information */
-router.get('/:id', /*authware.private,*/ async (req, res) => {
+router.get('/:id', /*authWare.private,*/ async (req, res) => {
     try {
         res.json( await clientDB.getUserById(req.params.id) );
     } catch (error) {
@@ -25,7 +24,7 @@ router.get('/:id', /*authware.private,*/ async (req, res) => {
     }
 });
 
-router.put('/:id', /*authware.userOnly,*/ async(req, res) => {
+router.put('/:id', /*authWare.userOnly,*/ async(req, res) => {
     try {
         res.json( await clientDB.updateClientData(req.params.id, req.body) );
     } catch (error) {
@@ -34,7 +33,7 @@ router.put('/:id', /*authware.userOnly,*/ async(req, res) => {
 });
 
 /* Client-Coach Session Notes */
-router.get('/:id/sessions', /*authware.private,*/ async (req, res) => {
+router.get('/:id/sessions', /*authWare.private,*/ async (req, res) => {
     try {
         const clientSessions = await clientDB.getCoachingSessions(req.params.id);
         if( clientSessions.length < 1 ) throw new httpError(404, 'No coaching session records found for that user.');
