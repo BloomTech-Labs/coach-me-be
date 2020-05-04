@@ -1,13 +1,14 @@
 const router = require('express').Router({mergeParams: true});
+const helper = require('../../utils/coachMeHelpers');
 const clientDB = require('../../models/client-model');
+
 const authWare = require('../../middleware/auth/globalAuth');
 
 router.get('/', /*authWare.private,*/ async (req, res) => {
     try {
         res.json( await clientDB.getHealthData( req.params.id, req.query?.count, req.query?.metrics ) );
-    } catch (err){
-        console.log('Here\'s the error: ', error)
-        res.json(error);
+    } catch (error){
+        helper.catchError(res, error);
     }
 });
 
@@ -15,9 +16,7 @@ router.post('/', /*authWare.userOnly,*/ async (req, res) => {
     try {
         res.json( await clientDB.addHealthData( req.params.id, req.body ) );
     } catch (error){
-        res.status(error.status ? error.status : 500).json({
-            message: error.message ? error.message : "There was an internal server error."
-        });
+        helper.catchError(res, error);
     }
 });
 
