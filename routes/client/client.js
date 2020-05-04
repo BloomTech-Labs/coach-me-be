@@ -4,7 +4,6 @@ const helper = require('../../utils/coachMeHelpers');
 
 const healthDataRouter = require('./client-health-data');
 const clientDB = require('../../models/client-model');
-const CoachingSessions = require('../../models/coaching-session-model');
 
 const authware = require('../../middleware/auth/globalAuth');
 const pathValidator = require('../../middleware/pathValidator');
@@ -37,7 +36,7 @@ router.put('/:id', /*authware.userOnly,*/ async(req, res) => {
 /* Client-Coach Session Notes */
 router.get('/:id/sessions', /*authware.private,*/ async (req, res) => {
     try {
-        const clientSessions = await CoachingSessions.getUserSessions(req.params.id);
+        const clientSessions = await clientDB.getCoachingSessions(req.params.id);
         if( clientSessions.length < 1 ) throw new httpError(404, 'No coaching session records found for that user.');
         res.json(clientSessions);
     } catch (error) {

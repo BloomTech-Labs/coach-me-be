@@ -39,6 +39,15 @@ class UserModel {
             throw err;
         }
     }
+
+    async getCoachingSessions(userID, userType = 'client'){
+        try{
+            return await db('sessions')
+                        .where({[`${userType}_id`]: userID});
+        } catch(err){
+            throw err;
+        }
+    }
 }
 
 
