@@ -10,13 +10,17 @@ class CoachModel extends UserModel {
 		}
 	}
 	async addCoach(data) {
-		await db("coach").insert({
-			first_name: data.first_name,
-			last_name: data.last_name,
-			email: data.email,
-			phone: data.phone,
-			password: data.password,
-		});
+		try {
+			return await db("coach").insert({
+				first_name: data.first_name,
+				last_name: data.last_name,
+				email: data.email,
+				phone: data.phone,
+				password: data.password,
+			});
+		} catch (error) {
+			next(error);
+		}
 	}
 }
 
