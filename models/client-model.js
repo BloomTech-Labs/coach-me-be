@@ -37,9 +37,9 @@ class ClientModel extends UserModel{
                 if(! updateables.includes(update)) throw new httpError(400, 'Ensure you are only attempting to updated changeable data (phone, gender, med_list, profile_pic_id, dob, first_name, last_name )');
             });
             await db('client')
-                    .where({id: client_id})
-                    .update(updatedData)
-                    .then(data => data);
+                   .where({id: client_id})
+                   .update(updatedData)
+                   .then(data => data);
             return await this.getUserById(client_id);
     } catch(err){
             throw err;
@@ -49,8 +49,8 @@ class ClientModel extends UserModel{
     async deleteClient(id){
         try{
             return await db('client')
-                        .where({id})
-                        .del();
+                         .where({id})
+                         .del();
         } catch(err){
             throw(err);
         }
@@ -59,9 +59,9 @@ class ClientModel extends UserModel{
     async getCoach(client_id){
         try{
             return await db('coach_client')
-                        .select('coach_id as id')
-                        .where({client_id})
-                        .first();
+                         .select('coach_id as id')
+                         .where({client_id})
+                         .first();
         } catch(err){
             throw err;
         }
@@ -81,8 +81,8 @@ class ClientModel extends UserModel{
             const coach = await this.getCoach(client_id);
             metricData.coach_id = coach.id;
             return await db('health_data')
-                        .insert(metricData)
-                        .then(data => metricData);
+                         .insert(metricData)
+                         .then(data => metricData);
     } catch(err){
             throw err;
         }
@@ -100,13 +100,22 @@ class ClientModel extends UserModel{
             Object.keys(updatedData).forEach(update => {
                 if(! updateables.includes(update)) throw new httpError(400, 'Ensure you are only attempting to updated changeable data (systolic_bp, diastolic_bp, pulse, weight )');
             });
-            await db('health_data')
-                    .where({id})
-                    .update(updatedData)
-                    .then(data => data);
-            return await this.getUserById(client_id);
+            return await db('health_data')
+                  .where({id})
+                  .update(updatedData)
+                  .then(data => data);
     } catch(err){
             throw err;
+        }
+    }
+
+    async deleteMetricInstance(id){
+        try{
+            return await db('health_data')
+                         .where({id})
+                         .del();
+        } catch(err) {
+            throw(err);
         }
     }
 
