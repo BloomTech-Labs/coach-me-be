@@ -12,6 +12,10 @@ exports.seed = async function (knex) {
         coach_id: '659918be-887a-4ce7-a5c7-29434aeb1cb7',
         client_id: '82ad6337-b099-4bd7-b0f7-6c0c316fe250'
     },
+    {
+        coach_id: '659918be-887a-4ce7-a5c7-29434aeb1cb7',
+        client_id: 'd322ddbd-026d-4c29-8aea-fd7ae18ef572'
+    },
     ])
 };
 
