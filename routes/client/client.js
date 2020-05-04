@@ -19,7 +19,7 @@ router.use('/:id/data', healthDataRouter);
 /* Client Information */
 router.get('/:id', async (req, res) => {
     try {
-        res.json( await clientDB.getUserById(req.params.id) );
+        res.json( {...await clientDB.getUserById(req.params.id), password: null } );
     } catch (error) {
         helper.catchError(res, error);
     }
