@@ -20,4 +20,20 @@ router.post('/', /*access.userOnly,*/ async (req, res) => {
     }
 });
 
+router.get('/:instanceID', /*access.private,*/ async (req, res) => {
+    try {
+        res.json( await clientDB.getHealthDataInstance(req.params.instanceID, req.params.id) );
+    } catch (error){
+        helper.catchError(res, error);
+    }
+});
+
+router.put('/:instanceID', /*access.userOnly,*/ async (req, res) => {
+    try {
+        res.json( await clientDB.updateMetricData(req.params.instanceID, req.body) );
+    } catch (error){
+        helper.catchError(res, error);
+    }
+});
+
 module.exports = router;

@@ -8,11 +8,12 @@ const clientDB = require('../../models/client-model');
 const access = require('../../middleware/auth/globalPriv');
 
 /* MIDDLEWARE */
+
+router.use('/:id', require('../../middleware/pathValidator').checkID);
 //router.use(access.protected);
 router.use('/:id', access.private);
-router.use('/:id', require('../../middleware/pathValidator').checkID);
 
-// Health Data Metrics
+/* Health Data Metrics */
 router.use('/:id/data', healthDataRouter);
 
 /* Client Information */
@@ -48,6 +49,16 @@ router.get('/:id/sessions', async (req, res) => {
         const clientSessions = await clientDB.getCoachingSessions(req.params.id);
         if( clientSessions.length < 1 ) throw new httpError(404, 'No coaching session records found for that user.');
         res.json(clientSessions);
+    } catch (error) {
+        helper.catchError(res, error);
+    }
+});
+
+router.get('/:id/sessions/:sessionID', async (req, res) => {
+    try {
+        const clientSession = await clientDB.getCoachingSession(req.params.sessionID, req.params.id);
+        if( clientSession.length < 1 ) throw new httpError(404, 'No coaching session records found for that session ID.');
+        res.json(clientSession);
     } catch (error) {
         helper.catchError(res, error);
     }

@@ -39,7 +39,6 @@ router.post('/login', async (req, res, next) => {
         (err, user, info) => {
             if(!user) return res.json(info.message);
             req.login(user, function(error) {
-                console.log('!!!', req.session.passport);
                 if (error) throw error;
                 res.json('Login successful');
             });
@@ -50,7 +49,6 @@ router.post('/login', async (req, res, next) => {
     }
 );     
 router.post('/logout', async (req, res, next)=>{
-    console.log(req.session)
     try {
         req.session.destroy();
         return res.clearCookie('token').json('Logged out successfully.');

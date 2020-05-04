@@ -3,6 +3,9 @@ const httpError = require('http-errors');
 const UserModel = require('./user-model');
 
 class ClientModel extends UserModel{
+
+    // === BASIC CLIENT C(R)UD - Read/Retrieval inherited from UserModel === //
+
     async addClient(data){
         try {
             await db('client').insert({
@@ -18,6 +21,28 @@ class ClientModel extends UserModel{
             });
         } catch (error) {
             throw error;
+        }
+    }
+
+    /***
+     * updateClientData takes two arguments, and inserts the updated user information.
+     * @param {String} client_id - The selected user's id (UUID) for lookup
+     * @param {Object} updatedData - Object containing updated data for insertion (valid keys: phone, gender, med_list, profile_pic_id, dob, first_name, last_name )
+     * @returns {Object} - Object representing updated data
+     */
+    async updateClientData(client_id, updatedData){
+        const updateables = ['phone', 'gender', 'med_list', 'profile_pic_id', 'dob', 'first_name', 'last_name', 'height'];
+        try{
+            Object.keys(updatedData).forEach(update => {
+                if(! updateables.includes(update)) throw new httpError(400, 'Ensure you are only attempting to updated changeable data (phone, gender, med_list, profile_pic_id, dob, first_name, last_name )');
+            });
+            await db('client')
+                    .where({id: client_id})
+                    .update(updatedData)
+                    .then(data => data);
+            return await this.getUserById(client_id);
+    } catch(err){
+            throw err;
         }
     }
 
@@ -41,6 +66,9 @@ class ClientModel extends UserModel{
             throw err;
         }
     }
+
+    // === HEALTH DATA METRICS === //
+
     /***
      * addHealthData takes two arguments, and inserts the metric data into the DB and returns the newly inserted item.
      * @param {String} client_id - The selected user's id (UUID) for lookup
@@ -61,19 +89,19 @@ class ClientModel extends UserModel{
     }
 
     /***
-     * updateClientData takes two arguments, and inserts the updated user information in the client database.
+     * updateMetricData takes two arguments, and inserts the updated user health metric data.
      * @param {String} client_id - The selected user's id (UUID) for lookup
      * @param {Object} updatedData - Object containing updated data for insertion (valid keys: phone, gender, med_list, profile_pic_id, dob, first_name, last_name )
      * @returns {Object} - Object representing updated data
      */
-    async updateClientData(client_id, updatedData){
-        const updateables = ['phone', 'gender', 'med_list', 'profile_pic_id', 'dob', 'first_name', 'last_name', 'height'];
+    async updateMetricData(id, updatedData){
+        const updateables = ['systolic_bp', 'diastolic_bp', 'pulse', 'weight'];
         try{
             Object.keys(updatedData).forEach(update => {
-                if(! updateables.includes(update)) throw new httpError(400, 'Ensure you are only attempting to updated changeable data (phone, gender, med_list, profile_pic_id, dob, first_name, last_name )');
+                if(! updateables.includes(update)) throw new httpError(400, 'Ensure you are only attempting to updated changeable data (systolic_bp, diastolic_bp, pulse, weight )');
             });
-            await db('client')
-                    .where({id: client_id})
+            await db('health_data')
+                    .where({id})
                     .update(updatedData)
                     .then(data => data);
             return await this.getUserById(client_id);
@@ -81,7 +109,6 @@ class ClientModel extends UserModel{
             throw err;
         }
     }
-
 
 }
 module.exports = new ClientModel();
