@@ -9,14 +9,14 @@ const authWare = require('../../middleware/auth/globalAuth');
 
 /* MIDDLEWARE */
 //router.use(authWare.protected);
-// router.use('/:id', authWare.private);
+router.use('/:id', authWare.private);
 router.use('/:id', require('../../middleware/pathValidator').checkID);
 
 // Health Data Metrics
 router.use('/:id/data', healthDataRouter);
 
 /* Client Information */
-router.get('/:id', /*authWare.private,*/ async (req, res) => {
+router.get('/:id', async (req, res) => {
     try {
         res.json( await clientDB.getUserById(req.params.id) );
     } catch (error) {
@@ -33,7 +33,7 @@ router.put('/:id', /*authWare.userOnly,*/ async(req, res) => {
 });
 
 /* Client-Coach Session Notes */
-router.get('/:id/sessions', /*authWare.private,*/ async (req, res) => {
+router.get('/:id/sessions', async (req, res) => {
     try {
         const clientSessions = await clientDB.getCoachingSessions(req.params.id);
         if( clientSessions.length < 1 ) throw new httpError(404, 'No coaching session records found for that user.');
