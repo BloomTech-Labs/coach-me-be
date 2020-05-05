@@ -1,38 +1,41 @@
 const router = require('express').Router();
 const passport = require("passport");
 const bcrypt = require("bcrypt"); 
-
-const Clients = require('../../models/client-model');
-
+const client_db = require('../../models/client-model');
+const coach_db = require('../../models/coach-models');
+const httpError = require('http-errors'); 
 
 router.post('/register', require("../../middleware/auth/RegisterErrorHandler")(), async (req, res, next)=>{
     try {
-        const user = await Clients.getUserByEmail(req.body.email);
+        const {user_type} = req.query;
+        const user = await client_db.getUserByEmail(req.body.email, user_type);
         if(user) return res.status(402).json("There is an account associated with your email address. Try logging in.");
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
-        await Clients.addClient({
-            ...req.body,
-            password: hashedPassword
-        });
-        return res.json('success');
+        
+        switch(user_type){
+            case 'client':
+                await client_db.addClient({
+                    ...req.body,
+                    password: hashedPassword
+                });
+                return res.json('success');
+            case 'coach':
+                await coach_db.addCoach({
+                    ...req.body,
+                    password: hashedPassword
+                })
+                return res.json('success');
+            default:
+                throw new httpError(400, "user_type query value must be provided. (e.g: /auth?user_type='coach'")
+        }
     } catch (error) {
         next(error);
     }
 });
-
-// Serializies users and adds information to the session object.
-passport.serializeUser(function(user, done) {
-    done(null, {id: user.id, type: 'client'});
-});
-// Deserialize users so we can view the information through
-// req.session.passort
-passport.deserializeUser(function(user, done) {
-    done(null, user);
-});
            
 router.post('/login', async (req, res, next) => {
     try {
-        req.userType = 'client'
+        req.user_type = req.query.user_type
         if(req.session?.passport?.user) return res.redirect(`/api/client/${req.session.passport.user.id}`);
         passport.authenticate('local', {userProperty: 'email'},
         (err, user, info) => {
