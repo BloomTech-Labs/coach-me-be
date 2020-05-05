@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 const Clients = require('../../models/client-model');
 
 
-router.post('/register', require("../../middleware/auth/clientAuthErrorHandler")(), async (req, res, next)=>{
+router.post('/register', require("../../middleware/auth/RegisterErrorHandler")(), async (req, res, next)=>{
     try {
         const user = await Clients.getUserByEmail(req.body.email);
         if(user) return res.status(402).json("There is an account associated with your email address. Try logging in.");
@@ -32,8 +32,7 @@ passport.deserializeUser(function(user, done) {
            
 router.post('/login', async (req, res, next) => {
     try {
-        // If there is a session already, then you get redirected to the route
-        // /dashboard. I chose this at random, so we may want to change it :)
+        req.userType = 'client'
         if(req.session?.passport?.user) return res.redirect(`/api/client/${req.session.passport.user.id}`);
         passport.authenticate('local', {userProperty: 'email'},
         (err, user, info) => {
@@ -51,7 +50,7 @@ router.post('/login', async (req, res, next) => {
 router.post('/logout', async (req, res, next)=>{
     try {
         req.session.destroy();
-        return res.clearCookie('token').json('Logged out successfully.');
+        return res.json('Logged out successfully.');
         
     } catch (error) {
         next(error);

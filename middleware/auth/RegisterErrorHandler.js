@@ -1,4 +1,4 @@
-function clientAuthErrorHandler(){
+function clientAuthErrorHandler(type = 'client'){
     return (req, res, next) =>{
         const {first_name, last_name, email, phone, password, confirm_password, height, sex} = req.body;
         // Regular expresion that tests if the password is strong enough
@@ -12,7 +12,11 @@ function clientAuthErrorHandler(){
         // All of this could probably move to a middleware later. Checking required fields are there,
         // Checking if passwords match, checking if pass is strong enough. We could have Detailed error messages
         // and do password checks for each field.
-        if (!first_name || !last_name || !email || !phone || !password || !confirm_password || !height|| !sex){
+        if(!height || !sex && type === 'client'){
+            return res.status(400).json("All fields must be filled!");
+        }
+        if (!first_name || !last_name || !email || !phone || !password || !confirm_password){
+            console.log('getting here?')
             return res.status(400).json("All fields must be filled!");
         }
         if(password !== confirm_password){
