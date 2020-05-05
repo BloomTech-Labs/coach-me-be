@@ -13,7 +13,7 @@ class PathValidator {
      * @returns {String} string 'coach' or 'client'.
      */
     pathType(req){
-        return req.baseUrl.split('/')[req.baseUrl.split('/').length - 1].includes('coach') ? 'coach' : 'client'
+        return req.baseUrl.split('/')[2].includes('coach') ? 'coach' : 'client'
     }
 
     /***
@@ -21,7 +21,7 @@ class PathValidator {
      */
     async checkID(req, res, next){
         try{
-            const type = req.baseUrl.split('/')[req.baseUrl.split('/').length - 1].includes('coach') ? 'coach' : 'client'
+            const type = req.baseUrl.split('/')[2].includes('coach') ? 'coach' : 'client';
             const userID = await User.getUserById( req.params.id, type);
             if( !userID ) throw new httpError(404, `No user with ID:${req.params.id} found.`);
             next();
