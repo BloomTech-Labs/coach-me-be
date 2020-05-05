@@ -10,7 +10,7 @@ router.get("/", async (req, res) => {
 	try {
 		res.status(200).json(await coachDB.getCoachList());
 	} catch (error) {
-		next(error);
+		helper.catchError(res, error);
 	}
 });
 
@@ -19,14 +19,17 @@ router.get("/:id", async (req, res) => {
 	try {
 		res.status(200).json(await coachDB.getUserById(req.params.id, "coach"));
 	} catch (error) {
-		next(error);
+		helper.catchError(res, error);
 	}
 });
 
 //  '/coach/:id/clients'
 router.get("/:id/clients", async (req, res) => {
 	try {
-	} catch (error) {}
+		res.status(200).json();
+	} catch (error) {
+		helper.catchError(res, error);
+	}
 });
 
 //  '/coach/:id/clients/:clientID'
