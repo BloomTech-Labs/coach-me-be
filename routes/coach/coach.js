@@ -3,7 +3,7 @@ const coachDB = require("../../models/coach-models");
 const helper = require("../../utils/coachMeHelpers");
 
 /* MIDDLEWARE */
-// router.use("/:id", require("../../middleware/pathValidator").checkID);
+router.use("/:id", require("../../middleware/pathValidator").checkID);
 
 /*  
 	'/coach'
