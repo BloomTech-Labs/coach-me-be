@@ -22,6 +22,18 @@ class CoachModel extends UserModel {
 			next(error);
 		}
 	}
+
+	async getClientListByCoachID(id) {
+		try {
+			return await db("coach_client").join(
+				"client",
+				"client.id",
+				"coach_client.coach_id"
+			);
+		} catch (error) {
+			next(error);
+		}
+	}
 }
 
 module.exports = new CoachModel();
