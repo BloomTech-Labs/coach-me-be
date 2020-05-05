@@ -1,5 +1,5 @@
 const db = require("../data/db_config");
-// const httpError = require("http-errors");
+const httpError = require("http-errors");
 const UserModel = require("./user-model");
 
 class CoachModel extends UserModel {
@@ -7,7 +7,7 @@ class CoachModel extends UserModel {
 		try {
 			return await db("coach").select("id", "first_name", "last_name");
 		} catch (error) {
-			next(error);
+			throw error;
 		}
 	}
 	async addCoach(data) {
@@ -20,7 +20,7 @@ class CoachModel extends UserModel {
 				password: data.password,
 			});
 		} catch (error) {
-			next(error);
+			throw error;
 		}
 	}
 
@@ -31,7 +31,7 @@ class CoachModel extends UserModel {
 				.where("cc.coach_id", id)
 				.select("cc.coach_id", "cl.first_name", "cl.last_name");
 		} catch (error) {
-			next(error);
+			throw error;
 		}
 	}
 }
