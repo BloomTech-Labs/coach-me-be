@@ -1,4 +1,5 @@
 const db = require("../data/db_config");
+// const httpError = require("http-errors");
 const UserModel = require("./user-model");
 
 class CoachModel extends UserModel {
@@ -25,11 +26,10 @@ class CoachModel extends UserModel {
 
 	async getClientListByCoachID(id) {
 		try {
-			return await db("coach_client").join(
-				"client",
-				"client.id",
-				"coach_client.coach_id"
-			);
+			return await db("coach_client as cc")
+				.join("client as cl", "cl.id", "cc.client_id")
+				.where("cc.coach_id", id)
+				.select("cc.coach_id", "cl.first_name", "cl.last_name");
 		} catch (error) {
 			next(error);
 		}
