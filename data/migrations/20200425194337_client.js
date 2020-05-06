@@ -14,6 +14,7 @@ exports.up = async function (knex) {
 		tbl.string('sex').notNull();
 		tbl.string('gender');
 		tbl.text('med_list');
+		tbl.string('user_type').notNull().defaultTo('client');
 	});
 };
 
