@@ -69,7 +69,9 @@ class UserModel {
 
 	async getCoachingSession(id, userID, userType = "client") {
 		try {
-			return await db("sessions").where({ id }).first();
+            return await db("sessions")
+                        .where({ id })
+                        .first();
 		} catch (err) {
 			throw err;
 		}

@@ -100,15 +100,13 @@ router.get("/:id/sessions/:clientID", async (req, res) => {
 
 //  GET, PUT, (DELETE?)
 //  '/coach/:id/sessions/:sessionID'
-router.get("/:id/sessions", async (req, res) => {
+router.get("/:id/sessions/session/:sessionID", async (req, res) => {
 	try {
-		console.log(req.params.id);
-		console.log(req.query.sessionID);
 		res
 			.status(200)
 			.json(
 				await coachDB.getCoachingSession(
-					req.query.sessionID,
+					req.params.sessionID,
 					req.params.id,
 					"coach"
 				)
