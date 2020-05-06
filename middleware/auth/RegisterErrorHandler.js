@@ -23,7 +23,7 @@ function clientAuthErrorHandler(type = 'client'){
             return res.status(400).json("Passwords do not match.");
         }
         if(!passRegex.test(password)){
-            return res.status(400).json("Password must contain at least 8 characters, one upper case alphabetical character, and a number.");
+            return res.status(400).json("Password must contain at least 8 characters, one upper case alphabetical character, a special character, and a number.");
         }
         next();
     }
