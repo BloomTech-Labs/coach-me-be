@@ -59,9 +59,20 @@ router.get("/:id/clients/:clientID", async (req, res) => {
 		helper.catchError(res, error);
 	}
 });
-//	GET
-//  '/coach/:id/sessions'
 
+/*	
+	GET
+	'/coach/:id/sessions'
+	This endpoint retrieves all sessions that belong to
+	a specific coaches ID.
+*/
+router.get("/:id/sessions", async (req, res) => {
+	try {
+		res.status(200).json(await coachDB.getCoachSessionsByID(req.params.id));
+	} catch (error) {
+		helper.catchError(res.error);
+	}
+});
 //  GET, POST, (PUT?, DELETE?)
 //  '/coach/:id/sessions/:clientID'
 
