@@ -29,6 +29,18 @@ class CoachModel extends UserModel {
 			return await db("coach_client as cc")
 				.join("client as cl", "cl.id", "cc.client_id")
 				.where("cc.coach_id", id)
+				.select("cc.coach_id", "cl.id", "cl.first_name", "cl.last_name");
+		} catch (error) {
+			throw error;
+		}
+	}
+
+	async getCoachClientByID(id, clientID) {
+		try {
+			return await db("coach_client as cc")
+				.join("client as cl", "cl.id", "cc.client_id")
+				.where("cc.coach_id", id)
+				.where("cl.id", clientID)
 				.select("cc.coach_id", "cl.first_name", "cl.last_name");
 		} catch (error) {
 			throw error;

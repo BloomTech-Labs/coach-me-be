@@ -42,9 +42,23 @@ router.get("/:id/clients", async (req, res) => {
 		helper.catchError(res, error);
 	}
 });
-//	GET
-//  '/coach/:id/clients/:clientID'
-
+/*
+	GET
+	'/coach/:id/clients/:clientID'
+	This endpoint retrieves a specific client by
+	their ID that belongs to a specific coach ID
+*/
+router.get("/:id/clients/:clientID", async (req, res) => {
+	try {
+		res
+			.status(200)
+			.json(
+				await coachDB.getCoachClientByID(req.params.id, req.params.clientID)
+			);
+	} catch (error) {
+		helper.catchError(res, error);
+	}
+});
 //	GET
 //  '/coach/:id/sessions'
 
