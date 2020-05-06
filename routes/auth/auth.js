@@ -31,8 +31,6 @@ router.post('/register', require("../../middleware/auth/RegisterErrorHandler")()
         next(error);
     }
 });
-           
-
 router.post('/login', async (req, res, next) => {
     try {
         if(req.session?.passport?.user) return res.redirect(`/api/${req.query.user_type}/${req.session.passport.user.id}`);
@@ -48,7 +46,7 @@ router.post('/login', async (req, res, next) => {
         next(error);
         }
     }
-);     
+); 
 router.post('/logout', async (req, res, next)=>{
     try {
         req.session.destroy();
@@ -59,5 +57,14 @@ router.post('/logout', async (req, res, next)=>{
     }
 });
 
+router.get("/google", passport.authenticate('google', {scope: [
+    'profile',
+     'email', 
+     'https://www.googleapis.com/auth/user.birthday.read']}))
+
+router.get('/google/callback', passport.authenticate('google', {failureRedirect: '/api/auth/logout'}), 
+(req, res)=>{
+    res.send('these nutz')
+})
 
 module.exports = router;
