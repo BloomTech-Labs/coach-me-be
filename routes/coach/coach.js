@@ -100,5 +100,19 @@ router.get("/:id/sessions/:clientID", async (req, res) => {
 
 //  GET, PUT, (DELETE?)
 //  '/coach/:id/sessions/:sessionID'
+router.get("/:id/sessions/:sessionID", async (req, res) => {
+	try {
+		res
+			.status(200)
+			.json(
+				await coachDB.getCoachSessionsBySessionID(
+					req.params.id,
+					req.params.sessionID
+				)
+			);
+	} catch (error) {
+		helper.catchError(res.error);
+	}
+});
 
 module.exports = router;
