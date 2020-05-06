@@ -73,7 +73,29 @@ router.get("/:id/sessions", async (req, res) => {
 		helper.catchError(res.error);
 	}
 });
-//  GET, POST, (PUT?, DELETE?)
+
+/*  
+	GET
+	'/coach/:id/sessions/:clientID'
+	This route retrieves the specific client sessions belonging
+	to a specific coach.
+*/
+router.get("/:id/sessions/:clientID", async (req, res) => {
+	try {
+		res
+			.status(200)
+			.json(
+				await coachDB.getCoachSessionsByClientID(
+					req.params.id,
+					req.params.clientID
+				)
+			);
+	} catch (error) {
+		helper.catchError(res.error);
+	}
+});
+
+//  POST, (PUT?, DELETE?)
 //  '/coach/:id/sessions/:clientID'
 
 //  GET, PUT, (DELETE?)

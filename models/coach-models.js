@@ -63,6 +63,24 @@ class CoachModel extends UserModel {
 			throw error;
 		}
 	}
+
+	async getCoachSessionsByClientID(id, clientID) {
+		try {
+			return await db("sessions as s")
+				.where("s.coach_id", id)
+				.where("s.client_id", clientID)
+				.select(
+					"s.id",
+					"s.session_date",
+					"s.submitted_at",
+					"s.coach_id",
+					"s.client_id",
+					"s.notes"
+				);
+		} catch (error) {
+			throw error;
+		}
+	}
 }
 
 module.exports = new CoachModel();
