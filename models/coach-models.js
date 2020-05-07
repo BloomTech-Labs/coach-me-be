@@ -103,7 +103,9 @@ class CoachModel extends UserModel {
 
 	async addClientSession(session) {
 		try {
-			return await db("sessions").insert(session);
+			return await db("sessions")
+				.insert(session)
+				.then((data) => session);
 		} catch (error) {
 			throw error;
 		}
