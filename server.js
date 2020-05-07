@@ -12,6 +12,7 @@ const passport = require('passport');
 
 // Passport config
 require('./config/passport-local')(passport);
+require('./config/passport-google')(passport);
 
 const app = express();
 
