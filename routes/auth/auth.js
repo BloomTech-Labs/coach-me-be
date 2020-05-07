@@ -57,14 +57,11 @@ router.post('/logout', async (req, res, next)=>{
     }
 });
 
-router.get("/google", passport.authenticate('google', {scope: [
-    'profile',
-     'email', 
-     'https://www.googleapis.com/auth/user.birthday.read']}))
+router.get("/google", passport.authenticate('google', {scope: ['https://www.googleapis.com/auth/user.birthday.read']}))
 
 router.get('/google/callback', passport.authenticate('google', {failureRedirect: '/api/auth/logout'}), 
 (req, res)=>{
-    res.send('these nutz')
+    res.send(req.user)
 })
 
 module.exports = router;
