@@ -19,6 +19,7 @@ router.get("/", async (req, res) => {
 });
 
 /*  
+	GET
 	'/coach/:id'
 	This endpoint retrieves a specific coach by their user id.
 */
@@ -31,6 +32,29 @@ router.get("/:id", async (req, res) => {
 });
 
 /*  
+	PUT
+	'/coach/:id'
+	This endpoint retrieves a specific coach by their user id
+	and allows them to update their information.
+*/
+router.put("/:id", async (req, res) => {
+	try {
+		const changes = req.body;
+		res.json(await coachDB.updateCoachByID(req.params.id, changes));
+	} catch (error) {
+		helper.catchError(res, error);
+	}
+});
+
+/*  
+	DELETE
+	'/coach/:id'
+	This endpoint retrieves a specific coach by their user id
+	and allows them to delete their account.
+*/
+
+/*  
+	GET
 	'/coach/:id/clients'
 	This endpoints retrieves all the clients that have
 	been assigned to this coaches user ID.
@@ -42,6 +66,7 @@ router.get("/:id/clients", async (req, res) => {
 		helper.catchError(res, error);
 	}
 });
+
 /*
 	GET
 	'/coach/:id/clients/:clientID'
@@ -81,8 +106,10 @@ router.get("/:id/clients/:clientID/sessions", async (req, res) => {
 	}
 });
 
-//  POST, (PUT?, DELETE?)
-//  '/coach/:id/sessions/:clientID'
+/*  
+	POST
+	'/coach/:id/clients/:clientID/sessions'
+*/
 router.post("/:id/clients/:clientID/sessions", async (req, res) => {
 	try {
 		const { session_date, notes } = req.body;
@@ -119,8 +146,10 @@ router.get("/:id/sessions", async (req, res) => {
 	}
 });
 
-//  GET, PUT, (DELETE?)
-//  '/coach/:id/sessions/:sessionID'
+/* 
+	GET
+	'/coach/:id/sessions/:sessionID'
+*/
 router.get("/:id/sessions/:sessionID", async (req, res) => {
 	try {
 		res
@@ -136,5 +165,10 @@ router.get("/:id/sessions/:sessionID", async (req, res) => {
 		helper.catchError(res, error);
 	}
 });
+
+/* 
+	PUT
+	'/coach/:id/sessions/:sessionID'
+*/
 
 module.exports = router;

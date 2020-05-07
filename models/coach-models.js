@@ -25,6 +25,23 @@ class CoachModel extends UserModel {
 		}
 	}
 
+	async updateCoachByID(id, data) {
+		try {
+			return await db("coach")
+				.where({ id })
+				.update({
+					first_name: data.first_name,
+					last_name: data.last_name,
+					email: data.email,
+					phone: data.phone,
+					password: data.password,
+				})
+				.then((data) => data);
+		} catch (error) {
+			throw error;
+		}
+	}
+
 	async getClientListByCoachID(id) {
 		try {
 			return await db("coach_client as cc")
