@@ -77,12 +77,33 @@ router.get("/:id/clients/:clientID/sessions", async (req, res) => {
 				)
 			);
 	} catch (error) {
-		helper.catchError(res.error);
+		helper.catchError(res, error);
 	}
 });
 
 //  POST, (PUT?, DELETE?)
 //  '/coach/:id/sessions/:clientID'
+router.post("/:id/clients/:clientID/sessions", async (req, res) => {
+	try {
+		const { session_date, notes } = req.body;
+		console.log("session_date: ", session_date);
+		console.log("notes: ", notes);
+		if (!session_date || !notes) {
+			res.status(400).json({
+				message: "Need session_date and notes",
+			});
+		}
+		const payload = {
+			session_date: session_date,
+			notes: notes,
+			coach_id: req.params.id,
+			client_id: req.params.clientID,
+		};
+		res.status(201).json(await coachDB.addClientSession(payload));
+	} catch (error) {
+		helper.catchError(res, error);
+	}
+});
 
 /*	
 	GET
@@ -112,7 +133,7 @@ router.get("/:id/sessions/:sessionID", async (req, res) => {
 				)
 			);
 	} catch (error) {
-		helper.catchError(res.error);
+		helper.catchError(res, error);
 	}
 });
 

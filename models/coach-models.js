@@ -1,6 +1,7 @@
 const db = require("../data/db_config");
 const httpError = require("http-errors");
 const UserModel = require("./user-model");
+const ClientModel = require("./client-model");
 
 class CoachModel extends UserModel {
 	async getCoachList() {
@@ -95,6 +96,14 @@ class CoachModel extends UserModel {
 					"s.client_id",
 					"s.notes"
 				);
+		} catch (error) {
+			throw error;
+		}
+	}
+
+	async addClientSession(session) {
+		try {
+			return await db("sessions").insert(session);
 		} catch (error) {
 			throw error;
 		}
