@@ -170,5 +170,29 @@ router.get("/:id/sessions/:sessionID", async (req, res) => {
 	PUT
 	'/coach/:id/sessions/:sessionID'
 */
+router.put("/:id/sessions/:sessionID", async (req, res) => {
+	try {
+		const { session_date, notes } = req.body;
+		console.log("session_date: ", session_date);
+		console.log("notes: ", notes);
+
+		if (!session_date || !notes) {
+			res.status(400).json({
+				message: "Need session_date and notes",
+			});
+		}
+
+		const payload = {
+			session_date: session_date,
+			notes: notes,
+			coach_id: req.params.id,
+			client_id: req.params.clientID,
+		};
+
+		res.json(await coachDB.updateSessionByID(req.params.sessionID, payload));
+	} catch (error) {
+		helper.catchError(res, error);
+	}
+});
 
 module.exports = router;

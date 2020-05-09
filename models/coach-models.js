@@ -127,6 +127,21 @@ class CoachModel extends UserModel {
 			throw error;
 		}
 	}
+
+	async updateSessionByID(sessionID, data) {
+		try {
+			return await db("sessions")
+				.where("session_id", sessionID)
+				// .where("client_id", id)
+				.update({
+					session_date: data.session_date,
+					notes: data.notes,
+				})
+				.then((data) => data);
+		} catch (error) {
+			throw error;
+		}
+	}
 }
 
 module.exports = new CoachModel();
