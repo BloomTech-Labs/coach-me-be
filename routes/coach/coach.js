@@ -185,8 +185,6 @@ router.put("/:id/sessions/:sessionID", async (req, res) => {
 		const payload = {
 			session_date: session_date,
 			notes: notes,
-			coach_id: req.params.id,
-			client_id: req.params.clientID,
 		};
 
 		res.json(await coachDB.updateSessionByID(req.params.sessionID, payload));

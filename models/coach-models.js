@@ -128,15 +128,14 @@ class CoachModel extends UserModel {
 		}
 	}
 
-	async updateSessionByID(sessionID, data) {
+	async updateSessionByID(sessionID, session) {
 		try {
+			console.log("sessionID", sessionID);
 			return await db("sessions")
-				.where("session_id", sessionID)
+				.where("id", sessionID)
+
 				// .where("client_id", id)
-				.update({
-					session_date: data.session_date,
-					notes: data.notes,
-				})
+				.update(session)
 				.then((data) => data);
 		} catch (error) {
 			throw error;
