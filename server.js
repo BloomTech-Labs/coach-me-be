@@ -13,6 +13,7 @@ const passport = require('passport');
 // Passport config
 require('./config/passport-local')(passport);
 require('./config/passport-google')(passport);
+require('./config/passport-facebook')(passport);
 
 const app = express();
 
@@ -69,5 +70,7 @@ app.use((error, req, res, next) =>{
     });
 });
 
+// Google verification
+app.use(express.static('public'));
 
 module.exports = app;

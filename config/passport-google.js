@@ -9,7 +9,7 @@ function googleAuth(passport){
         
   
         
-    }, async (token, tokenSecret, profile, done)=>{
+    }, async (token, tokenSecret, profile, done)=> {
         // first_name: data.first_name,
         // last_name: data.last_name,
         // email: data.email,
@@ -28,7 +28,7 @@ function googleAuth(passport){
         //     last_name: profile._json.family_name,
         //     email: profile._json.email
         // })
-        done(null, profile)
+        done(null, profile);
     })
 )}
 

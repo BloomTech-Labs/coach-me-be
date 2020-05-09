@@ -57,11 +57,24 @@ router.post('/logout', async (req, res, next)=>{
     }
 });
 
-router.get("/google", passport.authenticate('google', {scope: ['https://www.googleapis.com/auth/user.birthday.read']}))
+router.get("/google", passport.authenticate('google', {scope: ['profile','https://www.googleapis.com/auth/user.birthday.read']}))
 
 router.get('/google/callback', passport.authenticate('google', {failureRedirect: '/api/auth/logout'}), 
 (req, res)=>{
     res.send(req.user)
 })
+
+router.get('/facebook', passport.authenticate('facebook'));
+
+router.get('/facebook/callback', passport.authenticate('facebook', {failureRedirect: '/api/auth/logout'}), 
+(req, res)=>{
+    res.send(req.user)
+})
+
+// Facebook will redirect the user to this URL after routerroval.  Finish the
+// authentication process by attempting to obtain an access token.  If
+// access was granted, the user will be logged in.  Otherwise,
+// authentication has failed.
+
 
 module.exports = router;
