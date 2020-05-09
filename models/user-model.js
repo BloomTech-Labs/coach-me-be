@@ -24,6 +24,15 @@ class UserModel {
             throw error;
         }
     }
+
+    async getUserByGoogleId(id, user_type = 'client'){
+        try {
+            return await db(user_type).where('google_id', id)
+        } catch (error) {
+            throw error;
+        }
+
+    }
     
     // === HEALTH DATA METRICS === //
 
