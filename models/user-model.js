@@ -20,14 +20,6 @@ class UserModel {
 		}
 	}
 
-	async getUserById(id, userType = "client") {
-		try {
-			return await db(userType).where({ id }).first();
-		} catch (error) {
-			throw error;
-		}
-	}
-
 	async getUserByGoogleId(id, user_type = "client") {
 		try {
 			return await db(user_type).where("google_id", id);
