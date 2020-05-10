@@ -10,11 +10,11 @@ exports.up = async function (knex) {
 		tbl.string("profile_pic_id");
 		tbl.timestamp("created_at").defaultTo(knex.fn.now());
 		tbl.timestamp("last_logged_in");
-		tbl.integer('height').notNull();
-		tbl.string('sex').notNull();
-		tbl.string('gender');
-		tbl.text('med_list');
-		tbl.string('user_type').notNull().defaultTo('client');
+		tbl.integer("height").notNull();
+		tbl.string("sex").notNull();
+		tbl.string("gender");
+		tbl.text("med_list");
+		tbl.string("user_type").notNull().defaultTo("client");
 	});
 };
 

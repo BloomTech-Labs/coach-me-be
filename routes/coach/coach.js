@@ -52,6 +52,17 @@ router.put("/:id", async (req, res) => {
 	This endpoint retrieves a specific coach by their user id
 	and allows them to delete their account.
 */
+router.delete("/:id", async (req, res) => {
+	try {
+		await coachDB.deleteCoach(req.params.id);
+		req.session.destroy();
+		return res
+			.clearCookie("token")
+			.json("Coach Account was deleted. Logged out Successfully.");
+	} catch (error) {
+		helper.catchError(res, error);
+	}
+});
 
 /*  
 	GET

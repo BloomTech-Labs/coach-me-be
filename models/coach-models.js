@@ -42,6 +42,14 @@ class CoachModel extends UserModel {
 		}
 	}
 
+	async deleteCoach(id) {
+		try {
+			return await db("coach").where({ id }).del();
+		} catch (error) {
+			throw error;
+		}
+	}
+
 	async getClientListByCoachID(id) {
 		try {
 			return await db("coach_client as cc")
