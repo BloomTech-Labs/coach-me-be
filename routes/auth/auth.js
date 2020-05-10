@@ -61,7 +61,11 @@ router.get("/google", passport.authenticate('google', {scope: ['profile','https:
 
 router.get('/google/callback', passport.authenticate('google', {failureRedirect: '/api/auth/logout'}), 
 (req, res)=>{
-    res.send(req.user)
+    console.log(req.session)
+   res.writeHead(302, {
+       'Location': 'http://localhost:3000'
+   });
+   res.end()
 })
 
 router.get('/facebook', passport.authenticate('facebook'));

@@ -1,4 +1,4 @@
-function clientAuthErrorHandler(type = 'client'){
+function registerErrorHandler(type = 'client'){
     return (req, res, next) =>{
         const {first_name, last_name, email, phone, password, confirm_password, height, sex} = req.body;
         // Regular expresion that tests if the password is strong enough
@@ -12,21 +12,33 @@ function clientAuthErrorHandler(type = 'client'){
         // All of this could probably move to a middleware later. Checking required fields are there,
         // Checking if passwords match, checking if pass is strong enough. We could have Detailed error messages
         // and do password checks for each field.
-        if(!height || !sex && type === 'client'){
-            return res.status(400).json("All fields must be filled!");
+        
+        switch(first_name, last_name, email, phone, password, confirm_password, height, sex){
+            case !first_name:
+                return res.status(400).json("First name is a required field.");
+            case !last_name: 
+                return res.status(400).json("Last name is a required field.");
+            case !email: 
+                return res.status(400).json("Email is a required field.");
+            case !phone: 
+                return res.status(400).json("Phone is a required field.");
+            case !password: 
+                return res.status(400).json("Password is a required field.");
+            case !confirm_password: 
+                return res.status(400).json("Please confirm your password.");
+            case confirm_password !== password: 
+                return res.status(400).json("The passwords you entered don't match.");
+            case !height && type === 'client': 
+                return res.status(400).json("Height is a required field.");
+            case !sex && type === 'client': 
+                return res.status(400).json("Sex is a required field.");
+            case !passRegex.test(password): 
+                return res.status(400).json("Password must contain at least 8 characters, one upper case alphabetical character, a special character, and a number.");
+            default:
+                break;
         }
-        if (!first_name || !last_name || !email || !phone || !password || !confirm_password){
-            console.log('getting here?')
-            return res.status(400).json("All fields must be filled!");
-        }
-        if(password !== confirm_password){
-            return res.status(400).json("Passwords do not match.");
-        }
-        if(!passRegex.test(password)){
-            return res.status(400).json("Password must contain at least 8 characters, one upper case alphabetical character, a special character, and a number.");
-        }
-        next();
+        next()
     }
 }
 
-module.exports = clientAuthErrorHandler;
+module.exports = registerErrorHandler;
