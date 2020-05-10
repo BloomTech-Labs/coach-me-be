@@ -61,9 +61,8 @@ router.get("/google", passport.authenticate('google', {scope: ['profile','https:
 
 router.get('/google/callback', passport.authenticate('google', {failureRedirect: '/api/auth/logout'}), 
 (req, res)=>{
-    console.log(req.session)
    res.writeHead(302, {
-       'Location': 'http://localhost:3000'
+       'Location': `${process.env.CLIENT_URL}/dashboard`
    });
    res.end()
 })

@@ -12,7 +12,6 @@ function registerErrorHandler(type = 'client'){
         // All of this could probably move to a middleware later. Checking required fields are there,
         // Checking if passwords match, checking if pass is strong enough. We could have Detailed error messages
         // and do password checks for each field.
-        
         switch(first_name, last_name, email, phone, password, confirm_password, height, sex){
             case !first_name:
                 return res.status(400).json("First name is a required field.");
