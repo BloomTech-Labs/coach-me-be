@@ -10,7 +10,7 @@ exports.up = async function (knex) {
 		tbl.string("creds_id");
 		tbl.timestamp("created_at").defaultTo(knex.fn.now());
 		tbl.timestamp("last_logged_in");
-		tbl.string('user_type').notNull().defaultTo('coach');
+		tbl.string("user_type").notNull().defaultTo("coach");
 	});
 };
 
