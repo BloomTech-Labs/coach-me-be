@@ -5,7 +5,7 @@ const Client = require('../../models/client-model');
 class AccessController {
 
     async protected(req, res, next){
-        if( !req.session.passport ) next(httpError(401, 'Please log in to continue.'));
+        if( !req.session.passport ) res.writeHead(302, {'Location': `${process.env.CLIENT_URL}/login`});
         next();
     }
 

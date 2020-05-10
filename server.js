@@ -65,9 +65,7 @@ app.use('/api', require('./routes/router-index'));
 // Error handling
 app.use((error, req, res, next) =>{
     logger.error(error);
-    return res.status(error.status ? error.status : 500).json({
-        message: error.message ? error.message : "There was an internal server error."
-    });
+    return res.status(500).json('There was an internal server error');
 });
 
 // Google verification
