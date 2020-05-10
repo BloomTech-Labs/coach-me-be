@@ -10,10 +10,10 @@ function clientAuthErrorHandler(type = "client") {
 			height,
 			sex,
 		} = req.body;
-		// Regular expression that tests if the password is strong enough
+		// Regular expresion that tests if the password is strong enough
 		// ^ = String starts
 		// (?=.*[a-z]) contains any lowercase alphabetical char from a-z
-		// (?=.*[A-Z]) contains any uppercase alphabetical char from A-Z
+		// (?=.*[A-Z]) containps any uppercase alphabetical char from A-Z
 		// (?=.*[0-9]) contains any number
 		// (?=.*[!@#\$%\^&\*]) contains any special character
 		// (?=.{8,}) string length of at lest 8 characters (You can add a second number to have the length be between those)
@@ -44,7 +44,7 @@ function clientAuthErrorHandler(type = "client") {
 			return res
 				.status(400)
 				.json(
-					"Password must contain at least 8 characters, one upper case alphabetical character, and a number."
+					"Password must contain at least 8 characters, one upper case alphabetical character, a special character, and a number."
 				);
 		}
 		next();
