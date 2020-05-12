@@ -61,7 +61,7 @@ router.delete("/:id", async (req, res) => {
 		req.session.destroy();
 		return res
 			.clearCookie("token")
-			.json("Coach Account was deleted. Logged out Successfully.");
+			.json({ message: "Coach Account was deleted. Logged out Successfully." });
 	} catch (error) {
 		helper.catchError(res, error);
 	}
