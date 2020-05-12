@@ -11,3 +11,6 @@ server.get("/", (req, res) => {
 server.listen(PORT, () =>
 	console.log(`Listening on port http://localhost:${PORT}`)
 );
+
+// Export for test
+module.exports = server;
