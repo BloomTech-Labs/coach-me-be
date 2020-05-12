@@ -39,3 +39,13 @@ test("PUT route for updating coach by user ID", async () => {
 		});
 	expect(res.statusCode).toBe(200);
 });
+
+test("DELETE route for deleting a coaches account by their user ID", async () => {
+	const res = await supertest(server).delete(
+		`${coachRoute}/11e30af8-b531-49b2-9387-2647dc76444a`
+	);
+	expect(res.statusCode).toBe(200);
+	// expect(res.body.message).toBe(
+	// 	"Coach Account was deleted. Logged out Successfully."
+	// );
+});
