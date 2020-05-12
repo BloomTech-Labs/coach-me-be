@@ -5,9 +5,9 @@ exports.up = async function (knex) {
 		tbl.date("session_date").notNull();
 		tbl.text("notes").notNull();
 		tbl.uuid("coach_id").notNull();
-		tbl.foreign("coach_id").references("coach.id");
+		tbl.foreign("coach_id").references("coach.id").onDelete("CASCADE");
 		tbl.uuid("client_id").notNull();
-		tbl.foreign("client_id").references("client.id");
+		tbl.foreign("client_id").references("client.id").onDelete("CASCADE");
 	});
 };
 

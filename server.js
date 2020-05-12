@@ -12,6 +12,8 @@ const passport = require('passport');
 
 // Passport config
 require('./config/passport-local')(passport);
+require('./config/passport-google')(passport);
+require('./config/passport-facebook')(passport);
 
 const app = express();
 
@@ -63,10 +65,10 @@ app.use('/api', require('./routes/router-index'));
 // Error handling
 app.use((error, req, res, next) =>{
     logger.error(error);
-    return res.status(error.status ? error.status : 500).json({
-        message: error.message ? error.message : "There was an internal server error."
-    });
+    return res.status(500).json('There was an internal server error');
 });
 
+// Google verification
+app.use(express.static('public'));
 
 module.exports = app;
