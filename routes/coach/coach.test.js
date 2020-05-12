@@ -27,23 +27,6 @@ describe("coach.js", () => {
 	});
 });
 
-// describe("coach.js", () => {
-// 	it("Should update coach by user ID", async () => {
-// 		const response = await supertest(server)
-// 			.put(`${coachRoute}/11e30af8-b531-49b2-9387-2647dc76444a`)
-// 			.send({
-// 				first_name: "Update First Name",
-// 				last_name: "Update Last Name",
-// 				email: "Update_email@gmail.com",
-// 				phone: "654651321987",
-// 				password: "PassWord128",
-// 			});
-// 		expect(response.status).toEqual(200);
-// 		// expect(res.type).toBe("application/json");
-// 		// expect(res.response).toBe(1);
-// 	});
-// });
-
 test("PUT route for updating coach by user ID", async () => {
 	const res = await supertest(server)
 		.put(`${coachRoute}/11e30af8-b531-49b2-9387-2647dc76444a`)
