@@ -1,5 +1,5 @@
 const db = require("../data/db_config");
-
+const jwt = require('jsonwebtoken');
 class UserModel {
 	// === USER RETRIEVAL === //
 
@@ -83,6 +83,21 @@ class UserModel {
 				.first();
 		} catch (err) {
 			throw err;
+		}
+	}
+
+	async generateRecoveryToken(id, userType = 'client'){
+		try {
+			const token = await jwt.sign({
+				id: id
+			},process.env.JWT_SECRET, {expiresIn: '1h'})
+			await db('password_reset').insert({
+				[`${userType}_id`]: id,
+				token: token
+			});
+			return token
+		} catch (error) {
+			throw error;
 		}
 	}
 }

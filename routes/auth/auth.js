@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const client_db = require('../../models/client-model');
 const coach_db = require('../../models/coach-models');
 const httpError = require('http-errors'); 
+const sgMail = require('@sendgrid/mail');
 
 router.post('/register', require("../../middleware/auth/RegisterErrorHandler")(), async (req, res, next)=>{
     try {
@@ -79,5 +80,31 @@ router.get('/facebook/callback', passport.authenticate('facebook', {failureRedir
 // access was granted, the user will be logged in.  Otherwise,
 // authentication has failed.
 
+router.post('/forgot_password', async (req, res, next)=>{
+    try{
+        const {method, user_type, cred_value} = req.body;
+        switch(method){
+            case 'phone':
+                // wi
+                break;
+            default:
+                const user = await client_db.getUserByEmail(cred_value, user_type);
+                if (!user) return res.json('If an email or phone number was associated to the credentials you provided, a reset link will be sent.');
+                const token = await client_db.generateRecoveryToken(user.id, user_type);
+                sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+                const msg = {
+                to: user.email,
+                from: 'noreply-password@coachme.org',
+                subject: `Reset your CoachMe password.`,
+                text: 'You requested a password reset from Coachme.org?',
+                html: `<strong>Yoyoyo. Reset your password <a href="${process.env.CLIENT_URL}/${token}">Here</a></strong>`,
+                };
+                sgMail.send(msg);
+                return res.json('If an email or phone number was associated to the credentials you provided, a reset link will be sent.');
+        }
+    } catch(err){
+        next(err)
+    }
+})
 
 module.exports = router;
