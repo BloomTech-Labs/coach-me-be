@@ -4,8 +4,8 @@ exports.up = async function (knex) {
 		tbl.bigInteger('google_id');
 		tbl.string("first_name", 20).notNull();
 		tbl.string("last_name", 20).notNull();
-		tbl.string("email").notNull();
-		tbl.bigInteger("phone", 10).notNull();
+		tbl.string("email").notNull().unique();
+		tbl.bigInteger("phone", 10).notNull().unique();
 		tbl.date("dob").notNull();
 		tbl.string("password").notNull();
 		tbl.string("profile_pic_id");
