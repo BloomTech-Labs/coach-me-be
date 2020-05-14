@@ -8,6 +8,7 @@ class PathValidator {
 	 */
 	async checkID(req, res, next) {
 		try {
+
 			const type = req.baseUrl.split("/")[2].includes("coach")
 				? "coach"
 				: "client";
