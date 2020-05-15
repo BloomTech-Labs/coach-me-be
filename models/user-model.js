@@ -98,7 +98,8 @@ class UserModel {
 	async generateRecoveryToken(id, userType = 'client'){
 		try {
 			const token = await jwt.sign({
-				id: id
+				id: id,
+				user_type: userType
 			},process.env.JWT_SECRET, {expiresIn: '1h'})
 			await db('password_reset').insert({
 				[`${userType}_id`]: id,
