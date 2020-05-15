@@ -44,7 +44,6 @@ class AccessController {
                     break;
                 default: 
                     throw error
-                    break;
             }
 		}
 	}
