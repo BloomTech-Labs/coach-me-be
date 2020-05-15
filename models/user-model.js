@@ -12,6 +12,15 @@ class UserModel {
 		}
 	}
 
+	async getUserByPhone(number, userType = "client"){
+		try {
+			const user = await db(userType).where("phone", number).first();
+			return user;
+		} catch (error) {
+			throw error;
+		}
+	}
+
 	async getUserById(id, userType = "client") {
 		try {
 			return await db(userType).where({ id }).first();
