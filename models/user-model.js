@@ -5,7 +5,7 @@ class UserModel {
 
 	async getUserByEmail(email, userType = "client") {
 		try {
-			const user = await db(userType).where("email", email).first();
+			const user = await db(userType).where("email", email.toLowerCase()).first();
 			return user;
 		} catch (error) {
 			throw error;
@@ -98,7 +98,8 @@ class UserModel {
 	async generateRecoveryToken(id, userType = 'client'){
 		try {
 			const token = await jwt.sign({
-				id: id
+				id: id,
+				user_type: userType
 			},process.env.JWT_SECRET, {expiresIn: '1h'})
 			await db('password_reset').insert({
 				[`${userType}_id`]: id,

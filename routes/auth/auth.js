@@ -7,6 +7,7 @@ const user_model = require('../../models/user-model');
 const user_db = new user_model();
 const httpError = require('http-errors'); 
 const sgMail = require('@sendgrid/mail');
+const access = require("../../middleware/auth/globalPriv");
 
 router.post('/register', require("../../middleware/auth/RegisterErrorHandler")(), async (req, res, next)=>{
     try {
@@ -90,10 +91,9 @@ router.post('/forgot_password', async (req, res, next) => {
         const token = await client_db.generateRecoveryToken(user.id, user_type);
         switch(method){
             case 'phone':
-                const twilioSID = process.env.twilioSID;
-                const twilioAuthToken = process.env.twilioAuthToken;
-                const smsClient = require('twilio')(twilioSID, twilioAuthToken);
-                console.log(user.phone);
+                const TWILIO_SID = process.env.TWILIO_SID;
+                const TWILIO_AUTH_TOKEN = process.env.TWILIO_AUTH_TOKEN;
+                const smsClient = require('twilio')(TWILIO_SID, TWILIO_AUTH_TOKEN);
                 await smsClient.messages.create({
                     body: `You requested a password reset. Reset your password <a href="${process.env.CLIENT_URL}/${token}"> here. </a> If you did not request this reset do not click the link and let us know.`,
                     from: '+12058786652',
@@ -116,6 +116,15 @@ router.post('/forgot_password', async (req, res, next) => {
     } catch(err){
         console.log(err)
         next(err)
+    }
+});
+
+router.post('/forgot_password/password_recovery', access.validateRecoveryToken, async(req, res, next)=>{
+    try {
+        const {token} = req.query;
+        
+    } catch (error) {
+        next(error);
     }
 })
 

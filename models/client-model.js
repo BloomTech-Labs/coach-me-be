@@ -11,13 +11,13 @@ class ClientModel extends UserModel{
             await db('client').insert({
                 first_name: data.first_name,
                 last_name: data.last_name,
-                email: data.email,
+                email: data.email.toLowerCase(),
                 phone: data.phone,
                 dob: data.dob,
                 password: data.password,
                 height: data.height,
-                sex: data.sex,
-                gender: data.gender
+                sex: data.sex.toLowerCase(),
+                gender: data.gender.toLowerCase()
             });
         } catch (error) {
             throw error;
