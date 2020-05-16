@@ -91,9 +91,9 @@ router.post('/forgot_password', async (req, res, next) => {
         const token = await client_db.generateRecoveryToken(user.id, user_type);
         switch(method){
             case 'phone':
-                const TWILIO_SID = process.env.TWILIO_SID;
-                const TWILIO_AUTH_TOKEN = process.env.TWILIO_AUTH_TOKEN;
-                const smsClient = require('twilio')(TWILIO_SID, TWILIO_AUTH_TOKEN);
+                const twilioSID = process.env.TWILIO_SID;
+                const twilioAuthToken = process.env.TWILIO_AUTH_TOKEN;
+                const smsClient = require('twilio')(twilioSID, twilioAuthToken);
                 await smsClient.messages.create({
                     body: `You requested a password reset. Reset your password <a href="${process.env.CLIENT_URL}/${token}"> here. </a> If you did not request this reset do not click the link and let us know.`,
                     from: '+12058786652',
