@@ -90,8 +90,8 @@ router.post('/forgot_password', async (req, res, next) => {
         const token = await client_db.generateRecoveryToken(user.id, user_type);
         switch(method){
             case 'phone':
-                const twilioSID = process.env.twilioSID;
-                const twilioAuthToken = process.env.twilioAuthToken;
+                const twilioSID = process.env.TWILIO_SID;
+                const twilioAuthToken = process.env.TWILIO_AUTH_TOKEN;
                 const smsClient = require('twilio')(twilioSID, twilioAuthToken);
                 console.log(user.phone);
                 await smsClient.messages.create({
