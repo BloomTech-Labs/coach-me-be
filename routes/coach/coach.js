@@ -1,6 +1,5 @@
 const router = require("express").Router();
 const coachDB = require("../../models/coach-models");
-const helper = require("../../utils/coachMeHelpers");
 const access = require("../../middleware/auth/globalPriv");
 
 /* MIDDLEWARE */
@@ -13,11 +12,13 @@ router.use("/:id", require("../../middleware/pathValidator").checkID);
 	This endpoint retrieves all the coaches 
 	registered in the database.
 */
-router.get("/", async (req, res) => {
+router.get("/", async (req, res, next) => {
 	try {
-		res.status(200).json(await coachDB.getCoachList());
+		const coachList = await coachDB.getCoachList();
+		if( ! coachList.length ) res.status(404).json("No coaches found");
+		res.status(200).json(coachList);
 	} catch (error) {
-		helper.catchError(res, error);
+		next(error);
 	}
 });
 
@@ -30,7 +31,7 @@ router.get("/:id", async (req, res) => {
 	try {
 		res.status(200).json(await coachDB.getUserById(req.params.id, "coach"));
 	} catch (error) {
-		helper.catchError(res, error);
+		next(error);
 	}
 });
 
@@ -45,7 +46,7 @@ router.put("/:id", async (req, res) => {
 		const changes = req.body;
 		res.json(await coachDB.updateCoachByID(req.params.id, changes));
 	} catch (error) {
-		helper.catchError(res, error);
+		next(error);
 	}
 });
 
@@ -63,7 +64,7 @@ router.delete("/:id", async (req, res) => {
 			.clearCookie("token")
 			.json({ message: "Coach Account was deleted. Logged out Successfully." });
 	} catch (error) {
-		helper.catchError(res, error);
+		next(error);
 	}
 });
 
@@ -77,7 +78,7 @@ router.get("/:id/clients", async (req, res) => {
 	try {
 		res.status(200).json(await coachDB.getClientListByCoachID(req.params.id));
 	} catch (error) {
-		helper.catchError(res, error);
+		next(error);
 	}
 });
 
@@ -95,7 +96,7 @@ router.get("/:id/clients/:clientID", async (req, res) => {
 				await coachDB.getCoachClientByID(req.params.id, req.params.clientID)
 			);
 	} catch (error) {
-		helper.catchError(res, error);
+		next(error);
 	}
 });
 
@@ -116,7 +117,7 @@ router.get("/:id/clients/:clientID/sessions", async (req, res) => {
 				)
 			);
 	} catch (error) {
-		helper.catchError(res, error);
+		next(error);
 	}
 });
 
@@ -142,7 +143,7 @@ router.post("/:id/clients/:clientID/sessions", async (req, res) => {
 		};
 		res.status(201).json(await coachDB.addClientSession(payload));
 	} catch (error) {
-		helper.catchError(res, error);
+		next(error);
 	}
 });
 
@@ -156,7 +157,7 @@ router.get("/:id/sessions", async (req, res) => {
 	try {
 		res.status(200).json(await coachDB.getCoachSessionsByID(req.params.id));
 	} catch (error) {
-		helper.catchError(res.error);
+		next(error);;
 	}
 });
 
@@ -176,7 +177,7 @@ router.get("/:id/sessions/:sessionID", async (req, res) => {
 				)
 			);
 	} catch (error) {
-		helper.catchError(res, error);
+		next(error);
 	}
 });
 
@@ -203,7 +204,7 @@ router.put("/:id/sessions/:sessionID", async (req, res) => {
 
 		res.json(await coachDB.updateSessionByID(req.params.sessionID, payload));
 	} catch (error) {
-		helper.catchError(res, error);
+		next(error);
 	}
 });
 
