@@ -13,11 +13,13 @@ router.use("/:id", require("../../middleware/pathValidator").checkID);
 	This endpoint retrieves all the coaches 
 	registered in the database.
 */
-router.get("/", async (req, res) => {
+router.get("/", async (req, res, next) => {
 	try {
-		res.status(200).json(await coachDB.getCoachList());
+		const coachList = await coachDB.getCoachList();
+		if( ! coachList.length ) res.status(404).json("No coaches found");
+		res.status(200).json(coachList);
 	} catch (error) {
-		helper.catchError(res, error);
+		next(error)
 	}
 });
 
