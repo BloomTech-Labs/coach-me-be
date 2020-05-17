@@ -135,7 +135,6 @@ router.post('/forgot_password', async (req, res, next) => {
 
 router.post('/forgot_password/password_recovery', access.validateRecoveryToken, async(req, res, next)=>{
     try {
-        const {token} = req.query;
         
     } catch (error) {
         next(error);
