@@ -75,7 +75,7 @@ router.get('/google/callback', passport.authenticate('google', {failureRedirect:
 router.get('/facebook', passport.authenticate('facebook', {scope: ['email', 'user_birthday', 'user_gender']}));
 
 router.get('/facebook/callback', passport.authenticate('facebook', {failureRedirect: '/api/auth/logout'}), 
-async (req, res)=>{
+async (req, res, next) => {
     try {
         const registeredUser = await user_db.getUserByFacebookId(req.user?.id);
         if( registeredUser ){
