@@ -3,8 +3,8 @@ exports.up = async function (knex) {
 		tbl.uuid("id").primary().defaultTo(knex.raw("uuid_generate_v4()"));
 		tbl.string("first_name", 20).notNull();
 		tbl.string("last_name", 20).notNull();
-		tbl.string("email").notNull();
-		tbl.bigInteger("phone", 10).notNull();
+		tbl.string("email").notNull().unique()
+		tbl.bigInteger("phone", 10).notNull().unique()
 		tbl.string("password").notNull();
 		tbl.string("profile_pic_id");
 		tbl.string("creds_id");

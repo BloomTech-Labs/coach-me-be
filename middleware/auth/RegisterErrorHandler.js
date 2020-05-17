@@ -1,5 +1,8 @@
 function registerErrorHandler(type = 'client'){
     return (req, res, next) =>{
+        
+        if(!Object.keys(req.body).length) return res.status(400).json('Request must include valid information.')
+
         const {first_name, last_name, email, phone, password, confirm_password, height, sex} = req.body;
         // Regular expresion that tests if the password is strong enough
         // ^ = String starts

@@ -1,11 +1,20 @@
 const db = require("../data/db_config");
-
+const jwt = require('jsonwebtoken');
 class UserModel {
 	// === USER RETRIEVAL === //
 
 	async getUserByEmail(email, userType = "client") {
 		try {
-			const user = await db(userType).where("email", email).first();
+			const user = await db(userType).where("email", email.toLowerCase()).first();
+			return user;
+		} catch (error) {
+			throw error;
+		}
+	}
+
+	async getUserByPhone(number, userType = "client"){
+		try {
+			const user = await db(userType).where("phone", number).first();
 			return user;
 		} catch (error) {
 			throw error;
@@ -23,6 +32,14 @@ class UserModel {
 	async getUserByGoogleId(id, user_type = "client") {
 		try {
 			return await db(user_type).where("google_id", id);
+		} catch (error) {
+			throw error;
+		}
+	}
+
+	async getUserByFacebookId(id, user_type = "client") {
+		try {
+			return await db(user_type).where("facebook_id", id);
 		} catch (error) {
 			throw error;
 		}
@@ -83,6 +100,22 @@ class UserModel {
 				.first();
 		} catch (err) {
 			throw err;
+		}
+	}
+
+	async generateRecoveryToken(id, userType = 'client'){
+		try {
+			const token = await jwt.sign({
+				id: id,
+				user_type: userType
+			},process.env.JWT_SECRET, {expiresIn: '1h'})
+			await db('password_reset').insert({
+				[`${userType}_id`]: id,
+				token: token
+			});
+			return token
+		} catch (error) {
+			throw error;
 		}
 	}
 }
