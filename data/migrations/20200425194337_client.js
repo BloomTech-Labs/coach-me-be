@@ -2,6 +2,7 @@ exports.up = async function (knex) {
 	return knex.schema.createTable("client", (tbl) => {
 		tbl.uuid("id").primary().defaultTo(knex.raw("uuid_generate_v4()"));
 		tbl.bigInteger('google_id');
+		tbl.bigInteger('facebook_id');
 		tbl.string("first_name", 20).notNull();
 		tbl.string("last_name", 20).notNull();
 		tbl.string("email").notNull().unique();
