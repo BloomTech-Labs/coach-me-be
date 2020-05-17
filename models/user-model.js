@@ -37,6 +37,14 @@ class UserModel {
 		}
 	}
 
+	async getUserByFacebookId(id, user_type = "client") {
+		try {
+			return await db(user_type).where("facebook_id", id);
+		} catch (error) {
+			throw error;
+		}
+	}
+
 	// === HEALTH DATA METRICS === //
 
 	/***

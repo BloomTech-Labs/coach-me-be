@@ -75,14 +75,28 @@ router.get('/google/callback', passport.authenticate('google', {failureRedirect:
 router.get('/facebook', passport.authenticate('facebook', {scope: ['email', 'user_birthday', 'user_gender']}));
 
 router.get('/facebook/callback', passport.authenticate('facebook', {failureRedirect: '/api/auth/logout'}), 
-(req, res)=>{
-    res.send(req.user)
-})
+async (req, res)=>{
+    try {
+        const registeredUser = await user_db.getUserByFacebookId(req.user?.id);
+        if( registeredUser ){
+            //login
+            res.status(200).json('Login successful');
+        } else {
+            //register
+            const names = req.user.displayName.split(' ');
+            client_db.addClient({
+                facebook_id: req.user.id,
+                first_name: names[0],
+                last_name: names[ names.length - 1 ]
+            });
+            res.status(201).json('User registration started');
+        }
+    } catch (err) {
+        next(err);
+    }
 
-// Facebook will redirect the user to this URL after routerroval.  Finish the
-// authentication process by attempting to obtain an access token.  If
-// access was granted, the user will be logged in.  Otherwise,
-// authentication has failed.
+    res.status(200).json({user_data: req.user})
+})
 
 router.post('/forgot_password', async (req, res, next) => {
     try{
