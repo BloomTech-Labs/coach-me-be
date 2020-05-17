@@ -87,7 +87,8 @@ async (req, res, next) => {
             client_db.addClient({
                 facebook_id: req.user.id,
                 first_name: names[0],
-                last_name: names[ names.length - 1 ]
+                last_name: names[ names.length - 1 ],
+                registration_complete: false
             });
             res.status(201).json('User registration started');
         }
