@@ -32,6 +32,7 @@ class AccessController {
 		try {
             const { token } = req.query;
             const { password } = req.body;
+            if(!password) return res.status(400).json("new password is required as a 'password' field.")
             const userToken = await db('password_reset').where({token}).first();
             if(!userToken) res.status(404).json('The token you provided is not valid.');
             const {id, user_type} = await jwt.verify(token, process.env.JWT_SECRET);
@@ -43,7 +44,7 @@ class AccessController {
                     res.status(401).json('Woops. Seems like your password recovery link expired.')
                     break;
                 default: 
-                    throw error
+                    next(error)
             }
 		}
 	}
