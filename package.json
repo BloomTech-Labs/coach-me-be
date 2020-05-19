@@ -1,69 +1,76 @@
 {
-	"name": "coach-me-be",
-	"version": "1.0.0",
-	"description": "CoachMe Backend",
-	"main": "index.js",
-	"scripts": {
-		"dev": "nodemon -r dotenv/config index.js",
-		"start": "node -r dotenv/config index.js",
-		"migrate": "node -r dotenv/config ./node_modules/knex/bin/cli.js migrate:latest",
-		"rollback": "node -r dotenv/config ./node_modules/knex/bin/cli.js migrate:rollback",
-		"seed": "node -r dotenv/config ./node_modules/knex/bin/cli.js seed:run",
-		"test": "node -r dotenv/config ./node_modules/jest/bin/jest.js --verbose --forceExit"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/Lambda-School-Labs/coach-me-be.git"
-	},
-	"author": "CoachMe Lambda School Labs Team",
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/Lambda-School-Labs/coach-me-be/issues"
-	},
-	"homepage": "https://github.com/Lambda-School-Labs/coach-me-be#readme",
-	"dependencies": {
-		"@sendgrid/mail": "^7.1.0",
-		"axios": "^0.19.2",
-		"bcrypt": "^4.0.1",
-		"chai": "^4.2.0",
-		"chai-http": "^4.3.0",
-		"connect-session-knex": "^1.6.0",
-		"cookie-parser": "^1.4.5",
-		"cors": "^2.8.5",
-		"ddos": "^0.2.1",
-		"dotenv": "^8.2.0",
-		"express": "^4.17.1",
-		"express-session": "^1.17.1",
-		"helmet": "^3.22.0",
-		"http-errors": "^1.7.3",
-		"install": "^0.13.0",
-		"jsonwebtoken": "^8.5.1",
-		"knex": "^0.21.1",
-		"log4js": "^6.2.1",
-		"mailgun-js": "^0.22.0",
-		"mocha": "^7.1.2",
-		"nodemon": "^2.0.3",
-		"npm": "^6.14.4",
-		"passport": "^0.4.1",
-		"passport-facebook": "^3.0.0",
-		"passport-google-oauth": "^2.0.0",
-		"passport-google-oauth20": "^2.0.0",
-		"passport-jwt": "^4.0.0",
-		"passport-local": "^1.0.0",
-		"pg": "^8.0.3",
-		"supertest": "^4.0.2",
-		"twilio": "^3.43.1"
-	},
-	"devDependencies": {
-		"jest": "^26.0.0"
-	},
-	"engines": {
-		"node": "14.1.x"
-	},
-	"jest": {
-		"testEnvironment": "node",
-		"coveragePathIgnorePatterns": [
-			"/node_modules/"
-		]
-	}
+  "name": "coach-me-be",
+  "version": "1.0.0",
+  "description": "CoachMe Backend",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon -r dotenv/config index.js",
+    "start": "node -r dotenv/config index.js",
+    "migrate": "node -r dotenv/config ./node_modules/knex/bin/cli.js migrate:latest",
+    "rollback": "node -r dotenv/config ./node_modules/knex/bin/cli.js migrate:rollback",
+    "seed": "node -r dotenv/config ./node_modules/knex/bin/cli.js seed:run",
+    "test": "node -r dotenv/config ./node_modules/jest/bin/jest.js --verbose --forceExit",
+    "coverage": "jest --coverage --detectOpenHandles --forceExit || true"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lambda-School-Labs/coach-me-be.git"
+  },
+  "author": "CoachMe Lambda School Labs Team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Lambda-School-Labs/coach-me-be/issues"
+  },
+  "homepage": "https://github.com/Lambda-School-Labs/coach-me-be#readme",
+  "dependencies": {
+    "@sendgrid/mail": "^7.1.0",
+    "axios": "^0.19.2",
+    "bcrypt": "^4.0.1",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "connect-session-knex": "^1.6.0",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "ddos": "^0.2.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "helmet": "^3.22.0",
+    "http-errors": "^1.7.3",
+    "install": "^0.13.0",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.21.1",
+    "log4js": "^6.2.1",
+    "mailgun-js": "^0.22.0",
+    "mocha": "^7.1.2",
+    "nodemon": "^2.0.3",
+    "npm": "^6.14.4",
+    "passport": "^0.4.1",
+    "passport-facebook": "^3.0.0",
+    "passport-google-oauth": "^2.0.0",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
+    "pg": "^8.0.3",
+    "supertest": "^4.0.2",
+    "twilio": "^3.43.1"
+  },
+  "devDependencies": {
+    "jest": "^26.0.0"
+  },
+  "engines": {
+    "node": "14.1.x"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "collectCoverageFrom": [
+      "**/*.js",
+      "!**/node_modules/**",
+      "!**/vendor/**",
+      "!**/__tests__/**"
+    ]
+  }
 }
