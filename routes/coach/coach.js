@@ -3,9 +3,9 @@ const coachDB = require("../../models/coach-models");
 const access = require("../../middleware/auth/globalPriv");
 
 /* MIDDLEWARE */
-router.use("/:id", require("../../middleware/pathValidator").checkID);
+// router.use("/:id", require("../../middleware/pathValidator").checkID);
 router.use(access.protected);
-router.use("/:id", access.private);
+// router.use("/:id", access.private);
 
 /*  
 	'/coach'
@@ -15,7 +15,7 @@ router.use("/:id", access.private);
 router.get("/", async (req, res, next) => {
 	try {
 		const coachList = await coachDB.getCoachList();
-		if( ! coachList.length ) res.status(404).json("No coaches found");
+		if (!coachList.length) res.status(404).json("No coaches found");
 		res.status(200).json(coachList);
 	} catch (error) {
 		next(error);
@@ -27,9 +27,18 @@ router.get("/", async (req, res, next) => {
 	'/coach/:id'
 	This endpoint retrieves a specific coach by their user id.
 */
-router.get("/:id", async (req, res) => {
+// router.get("/:id", async (req, res) => {
+// 	try {
+// 		res.status(200).json(await coachDB.getUserById(req.params.id, "coach"));
+// 	} catch (error) {
+// 		next(error);
+// 	}
+// });
+router.get("/me", async (req, res, next) => {
 	try {
-		res.status(200).json(await coachDB.getUserById(req.params.id, "coach"));
+		res
+			.status(200)
+			.json(await coachDB.getUserById(req.session.passport.user.id, "coach"));
 	} catch (error) {
 		next(error);
 	}
@@ -41,10 +50,12 @@ router.get("/:id", async (req, res) => {
 	This endpoint retrieves a specific coach by their user id
 	and allows them to update their information.
 */
-router.put("/:id", async (req, res) => {
+router.put("/me", async (req, res) => {
 	try {
 		const changes = req.body;
-		res.json(await coachDB.updateCoachByID(req.params.id, changes));
+		res.json(
+			await coachDB.updateCoachByID(req.session.passport.user.id, changes)
+		);
 	} catch (error) {
 		next(error);
 	}
@@ -157,7 +168,7 @@ router.get("/:id/sessions", async (req, res) => {
 	try {
 		res.status(200).json(await coachDB.getCoachSessionsByID(req.params.id));
 	} catch (error) {
-		next(error);;
+		next(error);
 	}
 });
 

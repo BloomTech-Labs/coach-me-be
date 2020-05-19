@@ -6,7 +6,13 @@ const ClientModel = require("./client-model");
 class CoachModel extends UserModel {
 	async getCoachList() {
 		try {
-			return await db("coach").select("id", "first_name", "last_name");
+			return await db("coach").select(
+				"id",
+				"first_name",
+				"last_name",
+				"email",
+				"phone"
+			);
 		} catch (error) {
 			throw error;
 		}
