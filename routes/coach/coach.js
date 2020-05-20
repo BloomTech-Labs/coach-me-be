@@ -25,6 +25,7 @@ router.get("/", async (req, res, next) => {
 /*  
 	GET
 	'/coach/:id/' --> id is the coaches id
+	'/coach/me --> this endpoint also works to get the currently logged in coaches profile
 	This endpoint retrieves all the coaches 
 	registered in the database.
 */
@@ -36,8 +37,12 @@ router.get("/:id", async (req, res, next) => {
 			...(await coachDB.getUserById(id, "coach")),
 			password: null,
 		};
-		if (!profile) return res.status(404).json("Coach profile not found");
-		res.status(200).json(profile);
+		console.log("profile: ", profile.id);
+		if (!profile.id) {
+			return res.status(404).json("Coach profile not found");
+		} else {
+			res.status(200).json(profile);
+		}
 	} catch (error) {
 		next(error);
 	}
