@@ -24,16 +24,9 @@ router.get("/", async (req, res, next) => {
 
 /*  
 	GET
-	'/coach/:id'
+	'/coach/me'
 	This endpoint retrieves a specific coach by their user id.
 */
-// router.get("/:id", async (req, res) => {
-// 	try {
-// 		res.status(200).json(await coachDB.getUserById(req.params.id, "coach"));
-// 	} catch (error) {
-// 		next(error);
-// 	}
-// });
 router.get("/me", async (req, res, next) => {
 	try {
 		res
@@ -46,7 +39,7 @@ router.get("/me", async (req, res, next) => {
 
 /*  
 	PUT
-	'/coach/:id'
+	'/coach/me'
 	This endpoint retrieves a specific coach by their user id
 	and allows them to update their information.
 */
@@ -63,13 +56,13 @@ router.put("/me", async (req, res) => {
 
 /*  
 	DELETE
-	'/coach/:id'
+	'/coach/me'
 	This endpoint retrieves a specific coach by their user id
 	and allows them to delete their account.
 */
-router.delete("/:id", async (req, res) => {
+router.delete("/me", async (req, res) => {
 	try {
-		await coachDB.deleteCoach(req.params.id);
+		await coachDB.deleteCoach(req.session.passport.user.id);
 		req.session.destroy();
 		return res
 			.clearCookie("token")
@@ -81,13 +74,15 @@ router.delete("/:id", async (req, res) => {
 
 /*  
 	GET
-	'/coach/:id/clients'
+	'/coach/me/clients'
 	This endpoints retrieves all the clients that have
 	been assigned to this coaches user ID.
 */
-router.get("/:id/clients", async (req, res) => {
+router.get("/me/clients", async (req, res) => {
 	try {
-		res.status(200).json(await coachDB.getClientListByCoachID(req.params.id));
+		res
+			.status(200)
+			.json(await coachDB.getClientListByCoachID(req.session.passport.user.id));
 	} catch (error) {
 		next(error);
 	}
