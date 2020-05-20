@@ -13,7 +13,7 @@ router.post('/register', require("../../middleware/auth/RegisterErrorHandler")()
     try {
         const {user_type} = req.query;
         const user = await client_db.getUserByEmail(req.body.email, user_type);
-        if(user) return res.status(402).json("There is an account associated with your email address. Try logging in.");
+        if(user) return res.status(409).json("There is an account associated with your email address. Try logging in.");
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
         switch(user_type){
             case 'client':
