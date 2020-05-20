@@ -17,6 +17,17 @@ class CoachModel extends UserModel {
 			throw error;
 		}
 	}
+
+	async getCoachByID(id) {
+		try {
+			return await db("coach")
+				.where({ id })
+				.select("id", "first_name", "last_name", "email", "phone");
+		} catch (error) {
+			throw error;
+		}
+	}
+
 	async addCoach(data) {
 		try {
 			return await db("coach").insert({

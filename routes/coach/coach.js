@@ -3,7 +3,7 @@ const coachDB = require("../../models/coach-models");
 const access = require("../../middleware/auth/globalPriv");
 
 /* MIDDLEWARE */
-// router.use("/:id", require("../../middleware/pathValidator").checkID);
+// router.use("/", require("../../middleware/pathValidator").checkID);
 router.use(access.protected);
 // router.use("/:id", access.private);
 
@@ -24,14 +24,20 @@ router.get("/", async (req, res, next) => {
 
 /*  
 	GET
-	'/coach/me'
-	This endpoint retrieves a specific coach by their user id.
+	'/coach/:id/' --> id is the coaches id
+	This endpoint retrieves all the coaches 
+	registered in the database.
 */
-router.get("/me", async (req, res, next) => {
+router.get("/:id", async (req, res, next) => {
 	try {
-		res
-			.status(200)
-			.json(await coachDB.getUserById(req.session.passport.user.id, "coach"));
+		const id =
+			req.params.id === "me" ? req.session?.passport?.user?.id : req.params.id;
+		const profile = {
+			...(await coachDB.getUserById(id, "coach")),
+			password: null,
+		};
+		if (!profile) return res.status(404).json("Coach profile not found");
+		res.status(200).json(profile);
 	} catch (error) {
 		next(error);
 	}
@@ -39,16 +45,14 @@ router.get("/me", async (req, res, next) => {
 
 /*  
 	PUT
-	'/coach/me'
+	'/coach/:id'
 	This endpoint retrieves a specific coach by their user id
 	and allows them to update their information.
 */
-router.put("/me", async (req, res) => {
+router.put("/:id", async (req, res) => {
 	try {
 		const changes = req.body;
-		res.json(
-			await coachDB.updateCoachByID(req.session.passport.user.id, changes)
-		);
+		res.json(await coachDB.updateCoachByID(req.params.id, changes));
 	} catch (error) {
 		next(error);
 	}
@@ -56,13 +60,13 @@ router.put("/me", async (req, res) => {
 
 /*  
 	DELETE
-	'/coach/me'
+	'/coach/:id'
 	This endpoint retrieves a specific coach by their user id
 	and allows them to delete their account.
 */
-router.delete("/me", async (req, res) => {
+router.delete("/:id", async (req, res) => {
 	try {
-		await coachDB.deleteCoach(req.session.passport.user.id);
+		await coachDB.deleteCoach(req.params.id);
 		req.session.destroy();
 		return res
 			.clearCookie("token")
@@ -74,15 +78,13 @@ router.delete("/me", async (req, res) => {
 
 /*  
 	GET
-	'/coach/me/clients'
+	'/coach/:id/clients'
 	This endpoints retrieves all the clients that have
 	been assigned to this coaches user ID.
 */
-router.get("/me/clients", async (req, res) => {
+router.get("/:id/clients", async (req, res) => {
 	try {
-		res
-			.status(200)
-			.json(await coachDB.getClientListByCoachID(req.session.passport.user.id));
+		res.status(200).json(await coachDB.getClientListByCoachID(req.params.id));
 	} catch (error) {
 		next(error);
 	}
