@@ -3,8 +3,8 @@ const coachDB = require("../../models/coach-models");
 const access = require("../../middleware/auth/globalPriv");
 
 /* MIDDLEWARE */
-router.use("/:id", require("../../middleware/pathValidator").checkID);
-// router.use(access.protected)
+// router.use("/", require("../../middleware/pathValidator").checkID);
+router.use(access.protected);
 // router.use("/:id", access.private);
 
 /*  
@@ -15,7 +15,7 @@ router.use("/:id", require("../../middleware/pathValidator").checkID);
 router.get("/", async (req, res, next) => {
 	try {
 		const coachList = await coachDB.getCoachList();
-		if( ! coachList.length ) res.status(404).json("No coaches found");
+		if (!coachList.length) res.status(404).json("No coaches found");
 		res.status(200).json(coachList);
 	} catch (error) {
 		next(error);
@@ -24,12 +24,20 @@ router.get("/", async (req, res, next) => {
 
 /*  
 	GET
-	'/coach/:id'
-	This endpoint retrieves a specific coach by their user id.
+	'/coach/:id/' --> id is the coaches id
+	This endpoint retrieves all the coaches 
+	registered in the database.
 */
-router.get("/:id", async (req, res) => {
+router.get("/:id", async (req, res, next) => {
 	try {
-		res.status(200).json(await coachDB.getUserById(req.params.id, "coach"));
+		const id =
+			req.params.id === "me" ? req.session?.passport?.user?.id : req.params.id;
+		const profile = {
+			...(await coachDB.getUserById(id, "coach")),
+			password: null,
+		};
+		if (!profile) return res.status(404).json("Coach profile not found");
+		res.status(200).json(profile);
 	} catch (error) {
 		next(error);
 	}
@@ -157,7 +165,7 @@ router.get("/:id/sessions", async (req, res) => {
 	try {
 		res.status(200).json(await coachDB.getCoachSessionsByID(req.params.id));
 	} catch (error) {
-		next(error);;
+		next(error);
 	}
 });
 
