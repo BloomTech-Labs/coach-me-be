@@ -122,10 +122,8 @@ router.get(
 router.post("/forgot_password", async (req, res, next) => {
 	try {
 		const { method, user_type, cred_value } = req.body;
-		const user =
-			method === "phone"
-				? await user_db.getUserByPhone(cred_value, user_type)
-				: await client_db.getUserByEmail(cred_value, user_type);
+        const user = method === "phone" ? await user_db.getUserByPhone(cred_value, user_type) : await client_db.getUserByEmail(cred_value, user_type);
+        if(!user) return res.status(404).json('If an email or phone number was associated to the credentials you provided, a reset link will be sent.')
 		const token = await client_db.generateRecoveryToken(user.id, user_type);
 		switch (method) {
 			case "phone":
