@@ -9,45 +9,32 @@ const httpError = require("http-errors");
 const sgMail = require("@sendgrid/mail");
 const access = require("../../middleware/auth/globalPriv");
 
-router.post(
-	"/register",
-	require("../../middleware/auth/RegisterErrorHandler")(),
-	async (req, res, next) => {
-		try {
-			const { user_type } = req.query;
-			const user = await client_db.getUserByEmail(req.body.email, user_type);
-			if (user)
-				return res
-					.status(402)
-					.json(
-						"There is an account associated with your email address. Try logging in."
-					);
-			const hashedPassword = await bcrypt.hash(req.body.password, 10);
-			console.log("hashedPassword: ", hashedPassword);
-			switch (user_type) {
-				case "client":
-					await client_db.addClient({
-						...req.body,
-						password: hashedPassword,
-					});
-					return res.json("success");
-				case "coach":
-					await coach_db.addCoach({
-						...req.body,
-						password: hashedPassword,
-					});
-					return res.json("success");
-				default:
-					throw new httpError(
-						400,
-						"user_type query value must be provided. (e.g: /auth?user_type='coach'"
-					);
-			}
-		} catch (error) {
-			next(error);
-		}
-	}
-);
+router.post('/register', require("../../middleware/auth/RegisterErrorHandler")(), async (req, res, next)=>{
+    try {
+        const {user_type} = req.query;
+        const user = await client_db.getUserByEmail(req.body.email, user_type);
+        if(user) return res.status(409).json("There is an account associated with your email address. Try logging in.");
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        switch(user_type){
+            case 'client':
+                await client_db.addClient({
+                    ...req.body,
+                    password: hashedPassword
+                });
+                return res.json('success');
+            case 'coach':
+                await coach_db.addCoach({
+                    ...req.body,
+                    password: hashedPassword
+                })
+                return res.json('success');
+            default:
+                throw new httpError(400, "user_type query value must be provided. (e.g: /auth?user_type='coach'")
+        }
+    } catch (error) {
+        next(error);
+    }
+});
 
 router.post("/login", async (req, res, next) => {
 	try {
