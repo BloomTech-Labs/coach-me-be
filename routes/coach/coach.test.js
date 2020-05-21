@@ -33,16 +33,6 @@ test("PUT route for updating coach by user ID", async () => {
 	expect(res.type).toBe("application/json");
 });
 
-// test("DELETE route for deleting a coaches account by their user ID", async () => {
-// 	const res = await supertest(server).delete(
-// 		`${coachRoute}/11e30af8-b531-49b2-9387-2647dc76444a`
-// 	);
-// 	expect(res.statusCode).toBe(200);
-// 	expect(res.body.message).toBe(
-// 		"Coach Account was deleted. Logged out Successfully."
-// 	);
-// });
-
 test("GET route for getting all clients assigned to a coaches user ID", async () => {
 	const res = await supertest(server).get(
 		`${coachRoute}/659918be-887a-4ce7-a5c7-29434aeb1cb7/clients`
