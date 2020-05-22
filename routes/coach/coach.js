@@ -3,7 +3,7 @@ const coachDB = require("../../models/coach-models");
 const access = require("../../middleware/auth/globalPriv");
 
 /* MIDDLEWARE */
-// router.use("/", require("../../middleware/pathValidator").checkID);
+router.use("/:id", require("../../middleware/pathValidator").checkID);
 router.use(access.protected);
 // router.use("/:id", access.private);
 
@@ -25,6 +25,7 @@ router.get("/", async (req, res, next) => {
 /*  
 	GET
 	'/coach/:id/' --> id is the coaches id
+	'/coach/me --> this endpoint also works to get the currently logged in coaches profile
 	This endpoint retrieves all the coaches 
 	registered in the database.
 */
@@ -36,8 +37,12 @@ router.get("/:id", async (req, res, next) => {
 			...(await coachDB.getUserById(id, "coach")),
 			password: null,
 		};
-		if (!profile) return res.status(404).json("Coach profile not found");
-		res.status(200).json(profile);
+		console.log("profile: ", profile.id);
+		if (!profile.id) {
+			return res.status(404).json("Coach profile not found");
+		} else {
+			res.status(200).json(profile);
+		}
 	} catch (error) {
 		next(error);
 	}
@@ -49,7 +54,7 @@ router.get("/:id", async (req, res, next) => {
 	This endpoint retrieves a specific coach by their user id
 	and allows them to update their information.
 */
-router.put("/:id", async (req, res) => {
+router.put("/:id", async (req, res, next) => {
 	try {
 		const changes = req.body;
 		res.json(await coachDB.updateCoachByID(req.params.id, changes));
@@ -64,7 +69,7 @@ router.put("/:id", async (req, res) => {
 	This endpoint retrieves a specific coach by their user id
 	and allows them to delete their account.
 */
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", async (req, res, next) => {
 	try {
 		await coachDB.deleteCoach(req.params.id);
 		req.session.destroy();
@@ -82,7 +87,7 @@ router.delete("/:id", async (req, res) => {
 	This endpoints retrieves all the clients that have
 	been assigned to this coaches user ID.
 */
-router.get("/:id/clients", async (req, res) => {
+router.get("/:id/clients", async (req, res, next) => {
 	try {
 		res.status(200).json(await coachDB.getClientListByCoachID(req.params.id));
 	} catch (error) {
@@ -96,7 +101,7 @@ router.get("/:id/clients", async (req, res) => {
 	This endpoint retrieves a specific client by
 	their ID that belongs to a specific coach ID
 */
-router.get("/:id/clients/:clientID", async (req, res) => {
+router.get("/:id/clients/:clientID", async (req, res, next) => {
 	try {
 		res
 			.status(200)
@@ -114,7 +119,7 @@ router.get("/:id/clients/:clientID", async (req, res) => {
 	This route retrieves the specific client sessions belonging
 	to a specific coach.
 */
-router.get("/:id/clients/:clientID/sessions", async (req, res) => {
+router.get("/:id/clients/:clientID/sessions", async (req, res, next) => {
 	try {
 		res
 			.status(200)
@@ -133,7 +138,7 @@ router.get("/:id/clients/:clientID/sessions", async (req, res) => {
 	POST
 	'/coach/:id/clients/:clientID/sessions'
 */
-router.post("/:id/clients/:clientID/sessions", async (req, res) => {
+router.post("/:id/clients/:clientID/sessions", async (req, res, next) => {
 	try {
 		const { session_date, notes } = req.body;
 		console.log("session_date: ", session_date);
@@ -161,9 +166,14 @@ router.post("/:id/clients/:clientID/sessions", async (req, res) => {
 	This endpoint retrieves all sessions that belong to
 	a specific coaches ID.
 */
-router.get("/:id/sessions", async (req, res) => {
+router.get("/:id/sessions", async (req, res, next) => {
 	try {
-		res.status(200).json(await coachDB.getCoachSessionsByID(req.params.id));
+		const session = await coachDB.getCoachSessionsByID(req.params.id);
+
+		if (!session) {
+		}
+
+		res.status(200).json();
 	} catch (error) {
 		next(error);
 	}
@@ -173,7 +183,7 @@ router.get("/:id/sessions", async (req, res) => {
 	GET
 	'/coach/:id/sessions/:sessionID'
 */
-router.get("/:id/sessions/:sessionID", async (req, res) => {
+router.get("/:id/sessions/:sessionID", async (req, res, next) => {
 	try {
 		res
 			.status(200)
@@ -193,7 +203,7 @@ router.get("/:id/sessions/:sessionID", async (req, res) => {
 	PUT
 	'/coach/:id/sessions/:sessionID'
 */
-router.put("/:id/sessions/:sessionID", async (req, res) => {
+router.put("/:id/sessions/:sessionID", async (req, res, next) => {
 	try {
 		const { session_date, notes } = req.body;
 		console.log("session_date: ", session_date);
