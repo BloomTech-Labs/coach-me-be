@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">25% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/36</span>
+                <span class='fraction'>9/36</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">28.13% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/32</span>
+                <span class='fraction'>9/32</span>
             </div>
         
             
@@ -110,30 +110,12 @@
 <a name='L51'></a><a href='#L51'>51</a>
 <a name='L52'></a><a href='#L52'>52</a>
 <a name='L53'></a><a href='#L53'>53</a>
-<a name='L54'></a><a href='#L54'>54</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<a name='L54'></a><a href='#L54'>54</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -143,7 +125,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -153,7 +143,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -163,12 +153,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const router = <span class="cstat-no" title="statement not covered" >require('express').Router({mergeParams: true});</span>
-const clientDB = <span class="cstat-no" title="statement not covered" >require('../../models/client-model');</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span></td><td class="text"><pre class="prettyprint lang-js">const router = require('express').Router({mergeParams: true});
+const clientDB = require('../../models/client-model');
 &nbsp;
-const access = <span class="cstat-no" title="statement not covered" >require('../../middleware/auth/globalPriv');</span>
+const access = require('../../middleware/auth/globalPriv');
 &nbsp;
-<span class="cstat-no" title="statement not covered" >router.get('/', /*access.private,*/ <span class="fstat-no" title="function not covered" >as</span>ync (req, res, next) =&gt; {</span>
+router.get('/', /*access.private,*/ <span class="fstat-no" title="function not covered" >as</span>ync (req, res, next) =&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
         const metrics = <span class="cstat-no" title="statement not covered" >await clientDB.getHealthData( req.params.id, req.query?.count, req.query?.metrics );</span>
 <span class="cstat-no" title="statement not covered" >        if( ! metrics.length ) <span class="cstat-no" title="statement not covered" >res.status(404).json('No health metric records found for that user.');</span></span>
@@ -178,7 +178,7 @@ const access = <span class="cstat-no" title="statement not covered" >require('..
     }
 });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >router.post('/', /*access.userOnly,*/ <span class="fstat-no" title="function not covered" >as</span>ync (req, res, next) =&gt; {</span>
+router.post('/', /*access.userOnly,*/ <span class="fstat-no" title="function not covered" >as</span>ync (req, res, next) =&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
 <span class="cstat-no" title="statement not covered" >        res.status(201).json( await clientDB.addHealthData( req.params.id, req.body ) );</span>
     } catch (error){
@@ -186,7 +186,7 @@ const access = <span class="cstat-no" title="statement not covered" >require('..
     }
 });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >router.get('/:instanceID', /*access.private,*/ <span class="fstat-no" title="function not covered" >as</span>ync (req, res, next) =&gt; {</span>
+router.get('/:instanceID', /*access.private,*/ <span class="fstat-no" title="function not covered" >as</span>ync (req, res, next) =&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
         const instance = <span class="cstat-no" title="statement not covered" >await clientDB.getHealthDataInstance(req.params.instanceID, req.params.id);</span>
 <span class="cstat-no" title="statement not covered" >        if( ! instance ) <span class="cstat-no" title="statement not covered" >res.status(404).json('Invalid Instance ID');</span></span>
@@ -196,7 +196,7 @@ const access = <span class="cstat-no" title="statement not covered" >require('..
     }
 });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >router.put('/:instanceID', /*access.userOnly,*/ <span class="fstat-no" title="function not covered" >as</span>ync (req, res, next) =&gt; {</span>
+router.put('/:instanceID', /*access.userOnly,*/ <span class="fstat-no" title="function not covered" >as</span>ync (req, res, next) =&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
         const instance = <span class="cstat-no" title="statement not covered" >await clientDB.getHealthDataInstance(req.params.instanceID, req.params.id);</span>
 <span class="cstat-no" title="statement not covered" >        if( ! instance ) <span class="cstat-no" title="statement not covered" >res.status(404).json('Invalid Instance ID');</span></span>
@@ -206,7 +206,7 @@ const access = <span class="cstat-no" title="statement not covered" >require('..
     }
 });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >router.delete('/:instanceID', /*access.userOnly,*/ <span class="fstat-no" title="function not covered" >as</span>ync (req, res, next ) =&gt; {</span>
+router.delete('/:instanceID', /*access.userOnly,*/ <span class="fstat-no" title="function not covered" >as</span>ync (req, res, next ) =&gt; {
 <span class="cstat-no" title="statement not covered" >    try {</span>
         const instance = <span class="cstat-no" title="statement not covered" >await clientDB.getHealthDataInstance(req.params.instanceID, req.params.id);</span>
 <span class="cstat-no" title="statement not covered" >        if( ! instance ) <span class="cstat-no" title="statement not covered" >res.status(404).json('Invalid Instance ID');</span></span>
@@ -216,14 +216,14 @@ const access = <span class="cstat-no" title="statement not covered" >require('..
     }
 });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >module.exports = router;</span></pre></td></tr></table></pre>
+module.exports = router;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Mon May 18 2020 19:16:48 GMT-0700 (Pacific Daylight Time)
+                at Thu May 21 2020 18:34:57 GMT-0700 (Pacific Daylight Time)
             </div>
         </div>
         <script src="../../../prettify.js"></script>
