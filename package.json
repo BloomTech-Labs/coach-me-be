@@ -9,7 +9,8 @@
 		"migrate": "node -r dotenv/config ./node_modules/knex/bin/cli.js migrate:latest",
 		"rollback": "node -r dotenv/config ./node_modules/knex/bin/cli.js migrate:rollback",
 		"seed": "node -r dotenv/config ./node_modules/knex/bin/cli.js seed:run",
-		"test": "NODE_ENV=test node -r dotenv/config ./node_modules/jest/bin/jest.js --verbose --forceExit"
+		"test": "NODE_ENV=test node -r dotenv/config ./node_modules/jest/bin/jest.js --verbose --forceExit",
+		"coverage": "jest --coverage --detectOpenHandles --forceExit || true"
 	},
 	"repository": {
 		"type": "git",
@@ -64,6 +65,12 @@
 		"testEnvironment": "node",
 		"coveragePathIgnorePatterns": [
 			"/node_modules/"
+		],
+		"collectCoverageFrom": [
+			"**/*.js",
+			"!**/node_modules/**",
+			"!**/vendor/**",
+			"!**/__tests__/**"
 		]
 	}
 }
