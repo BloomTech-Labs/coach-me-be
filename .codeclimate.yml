@@ -15,8 +15,6 @@ exclude_patterns:
   - "spec/"
   - "coverage/"
   - "**/*.spec.js"
-  - "**/*.test.*"
-  - "**/*.test.js"
   - "**/vendor/"
   - "**/node_modules/"
   - "**/data/"
