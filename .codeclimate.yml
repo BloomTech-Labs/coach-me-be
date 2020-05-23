@@ -9,7 +9,7 @@ checks:
   # Because this is more reasonable for JavaScript.
   method-lines:
     config:
-      threshold: 50
+      threshold: 55
 exclude_patterns:
   - "tests/"
   - "spec/"
