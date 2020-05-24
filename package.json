@@ -69,13 +69,15 @@
 		"collectCoverageFrom": [
 			"**/*.js",
 			"!**/node_modules/**",
-			"!**/vendor/**",
 			"!**/database/**",
 			"!**/tests/**",
 			"!**/__tests__/**",
 			"!**/spec/**",
 			"!**/*.spec.{js,jsx}",
-			"!**/coverage/**"
+			"!**/coverage/**",
+			"!**/data/**",
+			"!**knexfile.js**",
+			"!**/data/db_config.js**"
 		]
 	}
 }

@@ -13,11 +13,11 @@ checks:
 exclude_patterns:
   - "tests/"
   - "spec/"
-  - "data/"
+  - "data/migrations/"
+  - "data/seeds/"
   - "**/*.test.js"
   - "**/*.spec.js"
   - "**/*.spec.jsx"
   - "**/*.spec.ts"
   - "**/*.spec.tsx"
-  - "**/vendor/"
   - "**/node_modules/"
