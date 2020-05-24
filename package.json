@@ -70,7 +70,12 @@
 			"**/*.js",
 			"!**/node_modules/**",
 			"!**/vendor/**",
-			"!**/__tests__/**"
+			"!**/database/**",
+			"!**/tests/**",
+			"!**/__tests__/**",
+			"!**/spec/**",
+			"!**/*.spec.{js,jsx}",
+			"!**/coverage/**"
 		]
 	}
 }
