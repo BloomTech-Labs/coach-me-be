@@ -24,7 +24,7 @@ server.get("/", (req, res) => {
 if (process.env.NODE_ENV != "test") {
 
 	server.listen(PORT, () =>
-		console.log(`Listening on port http://localhost:${PORT} PID: ${process.pid}`)
+		console.log(`Listening on port ${PORT} PID: ${process.pid}`)
 	);
 }
 }

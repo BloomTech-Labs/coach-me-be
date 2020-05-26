@@ -149,7 +149,7 @@ router.post("/forgot_password", async (req, res, next) => {
 					from: "noreply-password@coachme.org",
 					subject: `Reset your CoachMe password.`,
 					text: "You requested a password reset from Coachme.org?",
-					html: `<strong>Yoyoyo. Reset your password <a href="${process.env.CLIENT_URL}/${token}">Here</a></strong>`,
+					html: `<strong>Yoyoyo. Reset your password <a href="${process.env.CLIENT_URL}/password-reset?token=${token}">Here</a></strong>`,
 				};
 				sgMail.send(msg);
 				return res.json(
