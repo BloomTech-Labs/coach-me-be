@@ -22,7 +22,7 @@ app.use(ddos.express);
 app.use(require('cors')({
     origin: [
         "http://localhost:3000",
-        "http://localhost:3002",
+        "http://localhost:3001",
         process.env.CLIENT_URL,
     ],
     preflightContinue: true,
