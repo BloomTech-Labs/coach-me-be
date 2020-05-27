@@ -8,7 +8,15 @@ const server = require("./server");
 const PORT = process.env.PORT || 5000;
 
 if (cluster.isMaster){
-	console.log(`Kicking workers...`)
+	console.log(`
+	
+	____________________________
+   |    ___
+   |   (^0^)  <
+   |  /(___)
+   |    ^ ^
+   |____________________________
+	`)
 	for (let i = 0; i<cpus; i++){
 		cluster.fork()
 	}
