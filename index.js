@@ -8,25 +8,31 @@ const server = require("./server");
 const PORT = process.env.PORT || 5000;
 
 if (cluster.isMaster){
-	console.log(`Kicking workers...`)
+	console.log(`
+	
+    ____________________________________________
+   |    ___                                     |
+   |   (^0^)  < Running CoachMe Server workers  |
+   |  /(___)                                    |
+   |    ^ ^		                        |
+   |____________________________________________|
+	`)
 	for (let i = 0; i<cpus; i++){
 		cluster.fork()
 	}
 } else { 
+	server.get("/", (req, res) => {
+		res.send(`
+			<h1>This is a test!</h1>
+		`);
+	});
 
+	if (process.env.NODE_ENV != "test") {
 
-server.get("/", (req, res) => {
-	res.send(`
-          <h1>This is a test!</h1>
-      `);
-});
-
-if (process.env.NODE_ENV != "test") {
-
-	server.listen(PORT, () =>
-		console.log(`Listening on port ${PORT} PID: ${process.pid}`)
-	);
-}
+		server.listen(PORT, () =>
+			console.log(`Listening on port ${PORT} PID: ${process.pid}`)
+		);
+	}
 }
 
 // Export for test

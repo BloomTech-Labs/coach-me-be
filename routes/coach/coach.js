@@ -29,7 +29,7 @@ router.get("/", async (req, res, next) => {
 	This endpoint retrieves all the coaches 
 	registered in the database.
 */
-router.get("/:id", async (req, res, next) => {
+router.get("/:id",   async (req, res, next) => {
   try {
     const id = req.params.id;
     const profile = {
