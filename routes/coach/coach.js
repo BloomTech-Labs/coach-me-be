@@ -4,8 +4,8 @@ const access = require("../../middleware/auth/globalPriv");
 
 /* MIDDLEWARE */
 router.use("/:id", require("../../middleware/pathValidator").checkID);
-// router.use(access.protected);
-// router.use("/:id", access.private);
+router.use(access.protected);
+router.use("/:id", access.private);
 
 /*  
 	'/coach'
