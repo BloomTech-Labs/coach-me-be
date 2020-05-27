@@ -1,8 +1,7 @@
 const express = require('express');
 const session = require('express-session');
 const Ddos = require('ddos');
-
-const ddos = new Ddos({burst: 10, limit: 15})
+const ddos = new Ddos({burst: 10, limit: 15 });
 const logger = require('log4js').configure({
     appenders: {errors: {type: 'file', filename: 'errors.log' }},
     categories: {default: {appenders: ['errors'], level: 'error'}}
@@ -17,18 +16,21 @@ require('./config/passport-facebook')(passport);
 
 const app = express();
 
-// Basic middleware
+// Security
+app.use(require('helmet')());
+app.use(ddos.express);
 app.use(require('cors')({
-    methods: ['GET', 'POST'],
-    credentials: true
-}))
+    origin: [
+        "http://localhost:3000",
+        "http://localhost:3001",
+        process.env.CLIENT_URL,
+    ],
+    preflightContinue: true,
+    credentials: true,
+}));
 app.use(express.json());
 app.use(require("cookie-parser")(process.env.SESSION_SECRET))
 
-// Security
-app.use(require('cors')());
-app.use(require('helmet')());
-app.use(ddos.express);
 
 // Passport middleware
 app.use(passport.initialize());
@@ -48,11 +50,16 @@ app.use(session({
     resave: true,
     saveUninitialized: true,
     cookie: {
+        path: '/',
         // 30 minutes
+        secure: false,
+        httpOnly: false,
         expires: 1800000, 
         maxAge: 1000000000
+    
     },
-    store: store
+    store: store,
+    
 }));
 
 app.use(passport.session());
@@ -63,8 +70,11 @@ app.use('/api', require('./routes/router-index'));
 
 
 // Error handling
+let errors = 0;
 app.use((error, req, res, next) =>{
     logger.error(error);
+    errors++
+    console.log(`You have ${errors} server errors. Someone is getting fired...`)
     return res.status(500).json('There was an internal server error');
 });
 

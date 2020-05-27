@@ -8,10 +8,11 @@ class PathValidator {
 	 */
 	async checkID(req, res, next) {
 		try {
+			const id = req.params.id === "me" ? req.session?.passport?.user?.id : req.params.id;
 			const type = req.baseUrl.split("/")[2];
-			const userID = await User.getUserById(req.params.id, type);
+			const userID = await User.getUserById(id, type);
 			if (!userID)
-				throw new httpError(404, `No user with ID:${req.params.id} found.`);
+				throw new httpError(404, `No user with ID:${id} found.`);
 			next();
 		} catch (error) {
 			next(error);
