@@ -75,6 +75,7 @@ app.use((error, req, res, next) =>{
     logger.error(error);
     errors++
     console.log(`You have ${errors} server errors. Someone is getting fired...`)
+    console.log(error.message)
     return res.status(500).json('There was an internal server error');
 });
 
