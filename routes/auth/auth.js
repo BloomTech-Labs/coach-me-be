@@ -173,6 +173,6 @@ router.post(
 	}
 );
 
-router.get('/verify_session', access.protected, (req, res) => res.status(200).send('Okay'));
+router.get('/verify_session', access.protected, (req, res) => res.status(200).json('Okay'));
 
 module.exports = router;
