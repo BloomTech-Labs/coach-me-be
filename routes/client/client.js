@@ -17,7 +17,8 @@ router.use("/:id/data", healthDataRouter);
 /* Client Information */
 router.get("/:id", async (req, res, next) => {
 	try {
-		const client = await clientDB.getUserById(req.params.id);
+		const id = req.userID
+		const client = await clientDB.getUserById(id);
 		console.log(client);
 		if (!client) res.status(404).json("No client found with that ID.");
 		res.json({ ...client, password: null });
