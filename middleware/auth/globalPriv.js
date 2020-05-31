@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 class AccessController {
 
     async protected(req, res, next){
-        if( !req.session.passport ) res.writeHead(302, {'Location': `${process.env.CLIENT_URL}/login`});
+        if( !req.session.passport ) res.status(401).json('Unauthorized');
         next();
     }
 
