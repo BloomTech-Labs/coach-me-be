@@ -3,10 +3,11 @@ const Client = require('../../models/client-model');
 const db = require('../../data/db_config');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+
 class AccessController {
 
     async protected(req, res, next){
-        if( !req.session.passport ) res.status(401).json('Unauthorized');
+        if( !req.session.passport ) return res.status(401).json('Unauthorized');
         next();
     }
 
