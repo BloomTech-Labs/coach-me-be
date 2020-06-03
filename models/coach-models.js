@@ -155,7 +155,6 @@ class CoachModel extends UserModel {
 
 	async updateSessionByID(sessionID, session) {
 		try {
-			console.log("sessionID", sessionID);
 			return await db("sessions")
 				.where("id", sessionID)
 

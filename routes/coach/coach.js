@@ -36,7 +36,6 @@ router.get("/:id", async (req, res, next) => {
 			...(await coachDB.getUserById(id, "coach")),
 			password: null,
 		};
-		console.log("profile: ", profile.id);
 		if (!profile.id) {
 			return res.status(404).json("Coach profile not found");
 		} else {
@@ -140,8 +139,6 @@ router.get("/:id/clients/:clientID/sessions", async (req, res, next) => {
 router.post("/:id/clients/:clientID/sessions", async (req, res, next) => {
 	try {
 		const { session_date, notes } = req.body;
-		console.log("session_date: ", session_date);
-		console.log("notes: ", notes);
 		if (!session_date || !notes) {
 			res.status(400).json({
 				message: "Need session_date and notes",
@@ -205,8 +202,6 @@ router.get("/:id/sessions/:sessionID", async (req, res, next) => {
 router.put("/:id/sessions/:sessionID", async (req, res, next) => {
 	try {
 		const { session_date, notes } = req.body;
-		console.log("session_date: ", session_date);
-		console.log("notes: ", notes);
 
 		if (!session_date || !notes) {
 			res.status(400).json({
