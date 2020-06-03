@@ -9,6 +9,7 @@ class PathValidator {
 	async checkID(req, res, next) {
 		try {
 			const id = req.params.id === "me" ? req.session?.passport?.user?.id : req.params.id;
+			if( !id ) return res.status(401).json('Unauthorized: No current session.');
 			req.userID = id;
 			const type = req.baseUrl.split("/")[2];
 			const userID = await User.getUserById(id, type);
