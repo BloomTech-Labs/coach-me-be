@@ -48,7 +48,7 @@ router.post("/login", async (req, res, next) => {
 			"local",
 			{ userProperty: "email" },
 			(err, user, info) => {
-				if (!user) return res.json(info.message);
+				if (!user) return res.status(404).json(info.message);
 				req.login(user, function (error) {
 					if (error) throw error;
 					res.json("Login successful");
@@ -159,7 +159,6 @@ router.post("/forgot_password", async (req, res, next) => {
 				);
 		}
 	} catch (err) {
-		console.log(err);
 		next(err);
 	}
 });
@@ -175,6 +174,6 @@ router.post(
 	}
 );
 
-router.get('/verify_session', access.protected, (req, res) => res.status(200).send('Okay'));
+router.get('/verify_session', access.protected, (req, res) => res.status(200).json('Okay'));
 
 module.exports = router;
