@@ -36,6 +36,7 @@ router.get("/:id", async (req, res, next) => {
 			...(await coachDB.getUserById(id, "coach")),
 			password: null,
 		};
+
 		if (!profile.id) {
 			return res.status(404).json("Coach profile not found");
 		} else {
