@@ -12,7 +12,9 @@ const access = require("../../middleware/auth/globalPriv");
 router.post('/register', require("../../middleware/auth/RegisterErrorHandler")(), async (req, res, next)=>{
     try {
         const {user_type} = req.query;
-        const user = await client_db.getUserByEmail(req.body.email, user_type);
+		const user = await client_db.getUserByEmail(req.body.email, user_type);
+		const userWithPhone = await client_db.getUserByPhone(req.body.phone, user_type);
+		if(userWithPhone) return res.status(409).json('There is an account associated with your phone number already.')
         if(user) return res.status(409).json("There is an account associated with your email address. Try logging in.");
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
         switch(user_type){
@@ -46,7 +48,7 @@ router.post("/login", async (req, res, next) => {
 			"local",
 			{ userProperty: "email" },
 			(err, user, info) => {
-				if (!user) return res.json(info.message);
+				if (!user) return res.status(404).json(info.message);
 				req.login(user, function (error) {
 					if (error) throw error;
 					res.json("Login successful");
@@ -157,7 +159,6 @@ router.post("/forgot_password", async (req, res, next) => {
 				);
 		}
 	} catch (err) {
-		console.log(err);
 		next(err);
 	}
 });
@@ -172,5 +173,7 @@ router.post(
 		}
 	}
 );
+
+router.get('/verify_session', access.protected, (req, res) => res.status(200).json('Okay'));
 
 module.exports = router;

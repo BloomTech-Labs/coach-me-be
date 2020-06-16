@@ -9,11 +9,11 @@ class PathValidator {
 	async checkID(req, res, next) {
 		try {
 			const id = req.params.id === "me" ? req.session?.passport?.user?.id : req.params.id;
+			if( !id ) return res.status(401).json('Unauthorized: No current session.');
 			req.userID = id;
 			const type = req.baseUrl.split("/")[2];
 			const userID = await User.getUserById(id, type);
-			if (!userID)
-				throw new httpError(404, `No user with ID:${id} found.`);
+			if (!userID) return res.status(404).json(`No user with ID:${id} found.`);
 			next();
 		} catch (error) {
 			next(error);
