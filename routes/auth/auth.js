@@ -174,6 +174,10 @@ router.post(
 	}
 );
 
+router.post('upload_image', async (req, res, next) =>{
+	console.log(req.file);
+});
+
 router.get('/verify_session', access.protected, (req, res) => res.status(200).json('Okay'));
 
 module.exports = router;

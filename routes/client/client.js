@@ -76,26 +76,5 @@ router.get("/:id/sessions/:sessionID", async (req, res, next) => {
 	}
 });
 
-router.post("/uploadImage", async (req, res, next) =>{
-	fileHandler.upload(req, res, (error) =>{
-		if(error){
-			return next(error);
-		}
-
-		if(!req.file){
-			return res.status(400).json('Error: No file provided.');
-		}
-
-		const imageName = req.file.key;
-		const imageLocation = req.file.location;
-
-		res.json({
-			image: imageName,
-			location: imageLocation
-		})
-
-
-	})
-})
 
 module.exports = router;
