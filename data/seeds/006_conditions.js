@@ -17,7 +17,7 @@ exports.seed = async function (knex) {
 			condition: "High Cholesterol",
 		},
 		{
-			id: "b48e1d3e-f976-44bf-8d16-c164d81adb89",
+			id: "2c51112d-6ac5-448d-afef-69700af28d97",
 			condition: "Depression",
 		},
 	]);
