@@ -22,11 +22,10 @@ const app = express();
 app.use(require("helmet")());
 app.use(ddos.express);
 
-const origin_whitelist = [
+const whitelist = [
 	"http://localhost:3000",
 	"http://localhost:3001",
 	process.env.CLIENT_URL,
-	'https://ae5f2c37c0bb.ngrok.io'
 ];
 app.use(require('cors')({
 	preflightContinue: true,
