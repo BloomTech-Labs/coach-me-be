@@ -1,9 +1,8 @@
 const router = require("express").Router();
-
 const healthDataRouter = require("./client-health-data");
 const clientDB = require("../../models/client-model");
-
 const access = require("../../middleware/auth/globalPriv");
+const fileHandler = require('../../models/files-model');
 
 /* MIDDLEWARE */
 
@@ -76,5 +75,27 @@ router.get("/:id/sessions/:sessionID", async (req, res, next) => {
 		next(error);
 	}
 });
+
+router.post("/uploadImage", async (req, res, next) =>{
+	fileHandler.upload(req, res, (error) =>{
+		if(error){
+			return next(error);
+		}
+
+		if(!req.file){
+			return res.status(400).json('Error: No file provided.');
+		}
+
+		const imageName = req.file.key;
+		const imageLocation = req.file.location;
+
+		res.json({
+			image: imageName,
+			location: imageLocation
+		})
+
+
+	})
+})
 
 module.exports = router;
