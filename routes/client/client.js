@@ -92,10 +92,8 @@ router.post("/uploadImage", async (req, res, next) =>{
 		res.json({
 			image: imageName,
 			location: imageLocation
-		})
-
-
-	})
-})
+		});
+	});
+});
 
 module.exports = router;

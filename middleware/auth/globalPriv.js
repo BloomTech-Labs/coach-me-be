@@ -13,7 +13,7 @@ class AccessController {
 
     async private(req, res, next){
         try{
-            if( req.params.id === req.session.passport.user.id || req.session.passport.user.id === Client.getCoach( req.params.id ) ) return next();
+            if( req.userID === req.session.passport.user.id || req.session.passport.user.id === Client.getCoach( req.userID ) ) return next();
             next(new httpError(401, 'You don\'t have permission to access that data.'));
         } catch(err){
             next(err);

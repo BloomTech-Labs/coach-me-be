@@ -21,17 +21,24 @@ const app = express();
 // Security
 app.use(require("helmet")());
 app.use(ddos.express);
-app.use(
-	require("cors")({
-		origin: [
-			"http://localhost:3000",
-			"http://localhost:3001",
-			process.env.CLIENT_URL,
-		],
-		preflightContinue: true,
-		credentials: true,
-	})
-);
+
+const origin_whitelist = [
+	"http://localhost:3000",
+	"http://localhost:3001",
+	process.env.CLIENT_URL,
+	'https://ae5f2c37c0bb.ngrok.io'
+];
+app.use(require('cors')({
+	preflightContinue: true,
+	credentials: true,
+	origin: function(origin, cb){
+		if (whitelist.includes(origin) || !origin) {
+			cb(null, true)
+		  } else {
+			cb(new Error('Not allowed by CORS'))
+		  }
+	}
+}))
 app.use(express.json());
 app.use(require("cookie-parser")(process.env.SESSION_SECRET));
 
