@@ -1,9 +1,8 @@
 const router = require("express").Router();
-
 const healthDataRouter = require("./client-health-data");
 const clientDB = require("../../models/client-model");
-
 const access = require("../../middleware/auth/globalPriv");
+const fileHandler = require('../../models/files-model');
 
 /* MIDDLEWARE */
 
@@ -76,5 +75,6 @@ router.get("/:id/sessions/:sessionID", async (req, res, next) => {
 		next(error);
 	}
 });
+
 
 module.exports = router;
