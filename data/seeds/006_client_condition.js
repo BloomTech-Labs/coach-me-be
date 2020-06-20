@@ -2,7 +2,7 @@ exports.seed = async function (knex) {
 	await knex("client_condition").insert([
 		{
 			client_id: "d322ddbd-026d-4c29-8aea-fd7ae18ef572",
-			condition_id: "d322ddbd-026d-4c29-8aea-fd7ae18ef572",
+			condition_id: "7a27dd43-b1d1-47aa-8d62-b6f63a5a2e29",
 		},
 		{
 			client_id: "d322ddbd-026d-4c29-8aea-fd7ae18ef572",
@@ -38,7 +38,7 @@ exports.seed = async function (knex) {
 		},
 		{
 			client_id: "46b97b6f-f3bf-494a-a840-44d3393d376f",
-			condition_id: "d322ddbd-026d-4c29-8aea-fd7ae18ef572",
+			condition_id: "7a27dd43-b1d1-47aa-8d62-b6f63a5a2e29",
 		},
 	]);
 };
