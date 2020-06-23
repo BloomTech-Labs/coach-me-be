@@ -2,10 +2,15 @@ const app = require('express')();
 const PORT = process.env.PORT || 5000;
 const base64id = require('base64id');
 
-const  chatClient = app => {
+const  chatConfig = app => {
     const io = require('socket.io')(app);
     const users = {};
-    io.engine.generateId = req => base64id.generateId();
+    io.engine.generateId = req =>{ 
+        try {
+            return req.session.passport.user.id
+        } catch {
+            return base64id.generateId();
+        }}
 
     io.on('connection', socket => {
         if (!users[socket.id]) {
@@ -32,4 +37,4 @@ const  chatClient = app => {
 }
 
 
-module.exports = chatClient;
+module.exports = chatConfig;
