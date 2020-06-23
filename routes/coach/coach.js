@@ -221,4 +221,17 @@ router.put("/:id/sessions/:sessionID", async (req, res, next) => {
 	}
 });
 
+
+router.post('/:id/addCalendar', async (req, res, next) =>{
+	const {calendly_link } = req.body;
+	const {id} = req.params.id;
+
+	const db_res = await coachDB.addCoachCalendar({
+		id: id,
+		calendly_link
+	});
+
+	return res.json(db_res);
+});
+
 module.exports = router;

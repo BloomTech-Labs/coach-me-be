@@ -165,6 +165,26 @@ class CoachModel extends UserModel {
 			throw error;
 		}
 	}
+
+
+	async addCoachCalendar({calendly_link, id}){
+
+		const calendar = await db('coach_calendar').where({id}).first();
+		if(calendar){
+			await db('coach_calendar').where({id}).update({
+				calendly_link
+			});
+			return 'Updated';
+		}
+
+		await db('coach_calendar').insert({
+			coach_id: id,
+			calendly_link		
+		});
+
+		return 'Calendar added'
+
+	}
 }
 
 module.exports = new CoachModel();
