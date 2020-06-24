@@ -20,29 +20,35 @@ class FilesModel{
             Bucket: process.env.AWS_S3_BUCKET
         });
 
+
         this.upload = multer({
-            s3: this.s3,
-            bucket: 'coachme',
-            acl: 'public-read',
-            key: (req, file, cb) =>{
-                cb(null, path.basename(file.originalname, path.extname(file.originalname)) + Date.now() + path.extname(file.originalname))
-            },
-            limits: {fileSize: 8000000},
-            fileFilter: (file, cb) =>{
-                this.checkFileType(file, cb);
+            storage: multerS3({
+                s3: this.s3,
+                bucket: 'coachme',
+                acl: 'public-read',
+                key: function(req, file, cb){
+                    cb(null, `${req.session?.passport?.user?.id}/avatar/${path.basename( file.originalname, path.extname( file.originalname ) ) + '-' + Date.now() + path.extname( file.originalname )}` )
+
+                }
+            }),
+            limits:{ fileSize: 8000000 },
+            fileFilter: (req, file, cb) =>{
+                this.isFileAnImage(file, cb);
             }
         }).single('profile_image');
     }
-    checkFileType(file, cb){
-        const file_types = /jpeg|jpg|png|gif/;
-        const extname = file_types.test(path.extname(file.originalname).toLocaleLowerCase());
-        const mimetype = file_types.test(file.mimetype);
-        if(mimetype && extname) {
-            return cb(null, true);
-        }
-        cb('Error: File is not a supported format.');
-    }
 
+    isFileAnImage(file, cb){
+        const filetypes = /jpeg|jpg|png|gif|bmp|svg/;
+        const extname = filetypes.test( path.extname( file.originalname ).toLowerCase());
+        const mimetype = filetypes.test( file.mimetype );
+        if( mimetype && extname ){
+            return cb( null, true );
+        } else {
+            cb( 'Error: Images Only!' );
+        }
+
+    }
 }
 
 

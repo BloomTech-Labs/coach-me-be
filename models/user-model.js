@@ -118,6 +118,13 @@ class UserModel {
 			throw error;
 		}
 	}
+
+	async updateProfileImage(id, img, userType){
+		await db(userType).where('id', id).update({
+			profile_pic_id: img
+		});
+		return 'success';
+	}
 }
 
 module.exports = UserModel;
