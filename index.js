@@ -18,7 +18,7 @@ if (cluster.isMaster){
    |    ^ ^		                        |
    |____________________________________________|
 	`)
-	for (let i = 0; i<cpus; i++){
+	for (let i = 0; i< 1; i++){
 		cluster.fork()
 	}
 } else { 
