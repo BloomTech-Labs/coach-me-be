@@ -160,7 +160,7 @@ class CoachModel extends UserModel {
 		try {
 			return await db("sessions")
 				.insert(session)
-				.then((data) => session);
+				.then(() => session);
 		} catch (error) {
 			throw error;
 		}
@@ -180,36 +180,34 @@ class CoachModel extends UserModel {
 	}
 
 	//	=== Goals ===
-	async getClientGoalsByClientID(id, clientID){
-        try {
-			return await db('client_goals')
-			.where("coach_id", id)
-			.andWhere("client_id", clientID)
-            .select("id", "title", "description", "start_date", "completed");
-        } catch(err) {
-            throw(err)
-        }
-	}
-
-	async getClientGoalsByClientIDAndGoalID(id, clientID, goalID){
-        try {
-			return await db('client_goals')
-			.where("coach_id", id)
-			.andWhere("client_id", clientID)
-			.andWhere("goal_id", goalID)
-            .select("id", "title", "description", "start_date", "completed");
-        } catch(err) {
-            throw(err)
-        }
-	}
-	
-	async addClientGoals(coach_id, client_id, goal){
+	async getClientGoalsByClientID(coachID, clientID) {
 		try {
 			return await db("client_goals")
-							.where("client_id", client_id)
-							.andWhere("coach_id", coach_id)
-							.insert(goal)
-							.then(() => goal)
+				.where("coach_id", coachID)
+				.andWhere("client_id", clientID)
+				.select("id", "title", "description", "start_date", "completed");
+		} catch (err) {
+			throw err;
+		}
+	}
+
+	async getClientGoalsByClientIDAndGoalID(id, clientID, coachID) {
+		try {
+			return await db("client_goals")
+				.where("id", id)
+				.andWhere("client_id", clientID)
+				.andWhere("coach_id", coachID)
+				.select("id", "title", "description", "start_date", "completed");
+		} catch (err) {
+			throw err;
+		}
+	}
+
+	async addClientGoals(goal) {
+		try {
+			return await db("client_goals")
+				.insert(goal)
+				.then(() => goal);
 		} catch (error) {
 			throw error;
 		}
@@ -219,8 +217,23 @@ class CoachModel extends UserModel {
 		try {
 			return await db("client_goals")
 				.where("id", goalID)
-				.update(goal)
-				.then((data) => data);
+				.update({
+					coach_id: goal.coach_id,
+					client_id: goal.client_id,
+					title: goal.title,
+					description: goal.description,
+					start_date: goal.start_date,
+					completed: goal.completed,
+				})
+				.then(() => goal);
+		} catch (error) {
+			throw error;
+		}
+	}
+
+	async deleteClientGoalbyID(goalID) {
+		try {
+			return await db("client_goals").where("id", goalID).del();
 		} catch (error) {
 			throw error;
 		}
