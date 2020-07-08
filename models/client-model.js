@@ -24,6 +24,14 @@ class ClientModel extends UserModel{
         }
     }
 
+    async getAll(){
+        try {
+            return await this.getAllUsersByType('client');
+        } catch (error) {
+            throw error;
+        }
+    }
+
     /***
      * updateClientData takes two arguments, and inserts the updated user information.
      * @param {String} client_id - The selected user's id (UUID) for lookup

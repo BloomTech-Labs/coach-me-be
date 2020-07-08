@@ -29,11 +29,12 @@ const  chatConfig = app => {
         if( user.type === 'client' ){
             try {
                 const usersCoach = await client.getCoach( user.id );
+                console.log(usersCoach)
+                if( users[usersCoach.id] ? true : false ) socket.emit('usersOnline', { [usersCoach.id]: users[usersCoach.id] });
             } catch(err) {
                 console.error(err);
             }
         }
-        socket.emit("usersOnline", users);
 
         socket.on('disconnect', () => {
             delete users[user.id];

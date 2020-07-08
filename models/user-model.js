@@ -45,6 +45,19 @@ class UserModel {
 		}
 	}
 
+	async getAllUsersByType(user_type) {
+		try {
+			return await db(user_type).select(
+				"id",
+				"first_name",
+				"last_name",
+				"email"
+			);
+		} catch (error) {
+			throw error;
+		}
+	}
+
 	// === HEALTH DATA METRICS === //
 
 	/***
