@@ -21,7 +21,6 @@ router.get("/", async (req, res, next) => {
 		next(error);
 	}
 });
-
 /*  
 	GET
 	'/coach/:id/' --> id is the coaches id
@@ -46,7 +45,6 @@ router.get("/:id", async (req, res, next) => {
 		next(error);
 	}
 });
-
 /*  
 	PUT
 	'/coach/:id'
@@ -195,6 +193,62 @@ router.get("/:id/sessions/:sessionID", async (req, res, next) => {
 		next(error);
 	}
 });
+/*
+	GET
+	'/coach/:id/client/:clientID/goals'
+	This route retrieves the specific client goals belonging
+	to a specific coach.
+*/
+router.get("/:id/clients/:clientID/goals", async (req, res, next) => {
+	try {
+		res.status(200)
+		.json(
+			await coachDB.getClientGoalsByClientID(
+				req.params.id,
+				req.params.clientID
+			)
+		)
+	} catch(err) {
+		next(err)
+	}
+})
+
+router.get("/:id/clients/:clientID/goals/:goalID", async (req, res, next) => {
+	try {
+		res.status(200)
+		.json(
+			await coachDB.getClientGoalsByClientIDAndGoalID(
+				req.params.id,
+				req.params.clientID,
+				req.params.goalID
+			)
+		)
+	} catch(err) {
+		next(err)
+	}
+})
+/*
+	POST
+	add a client goal from the coach goal form for client
+*/
+router.post("/:id/clients/:clientID/goals/:goalID", async (req, res, next) => {
+	try {
+		if (!start_date || title || description || completed)
+			{res.status(400).json({
+				message: "Need all goal info",
+			});
+		}
+		const payload = {
+			start_date: start_date,
+			title: title,
+			description: description,
+			completed: completed
+		}
+		res.status(201).json( await coachDB.addClientGoals(req.params.id, req.params.clientID, payload))
+	} catch(err) {
+		next(err)
+	}
+})
 
 /* 
 	PUT
@@ -220,5 +274,10 @@ router.put("/:id/sessions/:sessionID", async (req, res, next) => {
 		next(error);
 	}
 });
+
+router.put("/:id/", async (req, res) => {
+
+});
+
 
 module.exports = router;
