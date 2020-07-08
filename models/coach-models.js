@@ -178,6 +178,53 @@ class CoachModel extends UserModel {
 			throw error;
 		}
 	}
+
+	//	=== Goals ===
+	async getClientGoalsByClientID(id, clientID){
+        try {
+			return await db('client_goals')
+			.where("coach_id", id)
+			.andWhere("client_id", clientID)
+            .select("id", "title", "description", "start_date", "completed");
+        } catch(err) {
+            throw(err)
+        }
+	}
+
+	async getClientGoalsByClientIDAndGoalID(id, clientID, goalID){
+        try {
+			return await db('client_goals')
+			.where("coach_id", id)
+			.andWhere("client_id", clientID)
+			.andWhere("goal_id", goalID)
+            .select("id", "title", "description", "start_date", "completed");
+        } catch(err) {
+            throw(err)
+        }
+	}
+	
+	async addClientGoals(coach_id, client_id, goal){
+		try {
+			return await db("client_goals")
+							.where("client_id", client_id)
+							.andWhere("coach_id", coach_id)
+							.insert(goal)
+							.then(() => goal)
+		} catch (error) {
+			throw error;
+		}
+	}
+
+	async updateClientGoal(goalID, goal) {
+		try {
+			return await db("client_goals")
+				.where("id", goalID)
+				.update(goal)
+				.then((data) => data);
+		} catch (error) {
+			throw error;
+		}
+	}
 }
 
 module.exports = new CoachModel();
