@@ -7,10 +7,10 @@ exports.seed = async function (knex) {
 			email: "gthomas@gmail.com",
 			phone: 502332404,
 			dob: "January 8, 1999",
-			password: "$2b$10$6.bJXBi5wO4b0u.f8anga.UrVw24UYTQoPPul4pYruisg/BUV1diW",
+			password: "$2b$10$urcNsdH4HoXyifF9OSmgmeqca5WBtM4MAWLpi1PEwbf7TxIjUVgOW",
 			height: 5,
 			sex: "male",
-			gender: "male"
+			gender: "male",
 		},
 		{
 			id: "82ad6337-b099-4bd7-b0f7-6c0c316fe250",
@@ -19,10 +19,10 @@ exports.seed = async function (knex) {
 			email: "tingle@gmail.com",
 			phone: 502456683,
 			dob: "January 8, 1999",
-			password: "$2b$10$6.bJXBi5wO4b0u.f8anga.UrVw24UYTQoPPul4pYruisg/BUV1diW",
+			password: "$2b$10$urcNsdH4HoXyifF9OSmgmeqca5WBtM4MAWLpi1PEwbf7TxIjUVgOW",
 			height: 5,
 			sex: "female",
-			gender: ""
+			gender: "",
 		},
 		{
 			id: "404e1e3c-2275-4a31-b073-123098307277",
@@ -31,10 +31,10 @@ exports.seed = async function (knex) {
 			email: "btaveras@gmail.com",
 			phone: 406658980,
 			dob: "January 8, 1999",
-			password: '$2b$10$6.bJXBi5wO4b0u.f8anga.UrVw24UYTQoPPul4pYruisg/BUV1diW',
+			password: "$2b$10$urcNsdH4HoXyifF9OSmgmeqca5WBtM4MAWLpi1PEwbf7TxIjUVgOW",
 			height: 5,
 			sex: "male",
-			gender: ""
+			gender: "",
 		},
 		{
 			id: "b1b76dd7-3e32-4fcd-8947-da9de089de35",
@@ -43,10 +43,10 @@ exports.seed = async function (knex) {
 			email: "burleson@gmail.com",
 			phone: 859608987,
 			dob: "January 8, 1999",
-			password: "$2b$10$6.bJXBi5wO4b0u.f8anga.UrVw24UYTQoPPul4pYruisg/BUV1diW",
+			password: "$2b$10$urcNsdH4HoXyifF9OSmgmeqca5WBtM4MAWLpi1PEwbf7TxIjUVgOW",
 			height: 5,
 			sex: "male",
-			gender: ""
+			gender: "",
 		},
 		{
 			id: "0d560384-5bce-46c9-94fb-5c5e8209f6dd",
@@ -55,22 +55,22 @@ exports.seed = async function (knex) {
 			email: "keliscar@gmailcom",
 			phone: 502456789,
 			dob: "January 8, 1999",
-			password: "$2b$10$6.bJXBi5wO4b0u.f8anga.UrVw24UYTQoPPul4pYruisg/BUV1diW",
+			password: "$2b$10$urcNsdH4HoXyifF9OSmgmeqca5WBtM4MAWLpi1PEwbf7TxIjUVgOW",
 			height: 5,
 			sex: "female",
-			gender: ""
+			gender: "",
 		},
 		{
 			id: "46b97b6f-f3bf-494a-a840-44d3393d376f",
 			first_name: "Jarrod",
 			last_name: "Skahill",
-			email: "jkahill@gmail.com",
+			email: "jskahill@gmail.com",
 			phone: 502478325,
 			dob: "January 8, 1999",
-			password: "$2b$10$6.bJXBi5wO4b0u.f8anga.UrVw24UYTQoPPul4pYruisg/BUV1diW",
+			password: "$2b$10$urcNsdH4HoXyifF9OSmgmeqca5WBtM4MAWLpi1PEwbf7TxIjUVgOW",
 			height: 5,
 			sex: "male",
-			gender: "male"
+			gender: "male",
 		},
 	]);
 };
