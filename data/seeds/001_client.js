@@ -64,7 +64,7 @@ exports.seed = async function (knex) {
 			id: "46b97b6f-f3bf-494a-a840-44d3393d376f",
 			first_name: "Jarrod",
 			last_name: "Skahill",
-			email: "jkahill@gmail.com",
+			email: "jskahill@gmail.com",
 			phone: 502478325,
 			dob: "January 8, 1999",
 			password: "$2b$10$urcNsdH4HoXyifF9OSmgmeqca5WBtM4MAWLpi1PEwbf7TxIjUVgOW",
