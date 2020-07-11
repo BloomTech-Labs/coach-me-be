@@ -45,6 +45,19 @@ class UserModel {
 		}
 	}
 
+	async getAllUsersByType(user_type) {
+		try {
+			return await db(user_type).select(
+				"id",
+				"first_name",
+				"last_name",
+				"email"
+			);
+		} catch (error) {
+			throw error;
+		}
+	}
+
 	// === HEALTH DATA METRICS === //
 
 	/***
@@ -75,6 +88,25 @@ class UserModel {
 			throw err;
 		}
 	}
+	// === COACHING-CLIENT RELATIONSHIP BINDING === //
+
+	/***
+	 * bindUsers takes up two user IDs, one for coach and one for client, and binds them in a coach-client relationship.
+	 * @param {String} coachID - The selected coach's id (UUID)
+	 * @param {String} clientID - The selected client's id (UUID)
+	 */
+
+	 async bindUsers(coachID, clientID){
+		 try{
+			 return await db('coach_client')
+				.insert({
+					'coach_id': coachID,
+					'client_id': clientID
+				});
+		 } catch(err){
+			 throw err;
+		 }
+	 }
 
 	// === COACHING SESSIONS === //
 
@@ -103,6 +135,8 @@ class UserModel {
 		}
 	}
 
+	// === ACCOUNT UTILITIES === //
+
 	async generateRecoveryToken(id, userType = 'client'){
 		try {
 			const token = await jwt.sign({
@@ -117,6 +151,13 @@ class UserModel {
 		} catch (error) {
 			throw error;
 		}
+	}
+
+	async updateProfileImage(id, img, userType){
+		await db(userType).where('id', id).update({
+			profile_pic_id: img
+		});
+		return 'success';
 	}
 }
 

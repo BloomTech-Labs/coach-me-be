@@ -94,6 +94,20 @@ router.get("/:id/clients", async (req, res, next) => {
 	}
 });
 
+/*  
+	GET
+	'/coach/:id/clients'
+	This endpoints retrieves all the clients that have
+	been assigned to this coaches user ID.
+*/
+router.post("/:id/clients/:clientID", async (req, res, next) => {
+	try {
+		res.status(201).json( await coachDB.bindUsers(req.params.id, req.params.clientID) );
+	} catch (error) {
+		next(error);
+	}
+});
+
 /*
 	GET
 	'/coach/:id/clients/:clientID'

@@ -8,7 +8,6 @@ const user_db = new user_model();
 const httpError = require("http-errors");
 const sgMail = require("@sendgrid/mail");
 const access = require("../../middleware/auth/globalPriv");
-
 router.post('/register', require("../../middleware/auth/RegisterErrorHandler")(), async (req, res, next)=>{
     try {
         const {user_type} = req.query;
@@ -101,7 +100,7 @@ router.get(
 			const registeredUser = await user_db.getUserByFacebookId(req.user?.id);
 			if (registeredUser) {
 				//login
-				res.status(200).json("Login successful");
+				return res.status(200).json("Login successful");
 			} else {
 				//register
 				const names = req.user.displayName.split(" ");
@@ -174,6 +173,8 @@ router.post(
 	}
 );
 
+
 router.get('/verify_session', access.protected, (req, res) => res.status(200).json('Okay'));
+
 
 module.exports = router;

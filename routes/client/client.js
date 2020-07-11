@@ -1,9 +1,8 @@
 const router = require("express").Router();
-
 const healthDataRouter = require("./client-health-data");
 const clientDB = require("../../models/client-model");
-
 const access = require("../../middleware/auth/globalPriv");
+const fileHandler = require('../../models/files-model');
 
 /* MIDDLEWARE */
 
@@ -13,6 +12,18 @@ router.use("/:id", require("../../middleware/pathValidator").checkID);
 
 /* Health Data Metrics */
 router.use("/:id/data", healthDataRouter);
+
+/* All Clients */
+router.get('/', async (req, res, next) => {
+	try {
+		const id = req.userID
+		const clients = await clientDB.getAll();
+		if (!clients) res.status(404).json("No clients found.");
+		res.json({ ...client});
+	} catch (error) {
+		next(error);
+	}
+})
 
 /* Client Information */
 router.get("/:id", async (req, res, next) => {
@@ -76,5 +87,6 @@ router.get("/:id/sessions/:sessionID", async (req, res, next) => {
 		next(error);
 	}
 });
+
 
 module.exports = router;
