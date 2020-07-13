@@ -84,7 +84,7 @@ class CoachModel extends UserModel {
 				.join("client as cl", "cl.id", "cc.client_id")
 				.where("cc.coach_id", id)
 				.where("first_name", "like", `%${firstname}%`)
-				.orWhere("last_name", "like", `%${lastname}%`)
+				.andWhere("last_name", "like", `%${lastname}%`)
 				.select("cl.id", "cl.first_name", "cl.last_name");
 		} catch (error) {
 			throw error;
