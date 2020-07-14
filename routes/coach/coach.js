@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const coachDB = require("../../models/coach-models");
+const clientDB = require("../../models/client-model");
 const access = require("../../middleware/auth/globalPriv");
 
 /* MIDDLEWARE */
@@ -21,7 +22,6 @@ router.get("/", async (req, res, next) => {
 		next(error);
 	}
 });
-
 /*  
 	GET
 	'/coach/:id/' --> id is the coaches id
@@ -46,7 +46,6 @@ router.get("/:id", async (req, res, next) => {
 		next(error);
 	}
 });
-
 /*  
 	PUT
 	'/coach/:id'
@@ -62,8 +61,7 @@ router.put("/:id", async (req, res, next) => {
 	}
 });
 
-/*  
-	DELETE
+/*
 	'/coach/:id'
 	This endpoint retrieves a specific coach by their user id
 	and allows them to delete their account.
@@ -154,8 +152,9 @@ router.get("/:id/clients/:clientID/sessions", async (req, res, next) => {
 router.post("/:id/clients/:clientID/sessions", async (req, res, next) => {
 	try {
 		const { session_date, notes } = req.body;
+
 		if (!session_date || !notes) {
-			res.status(400).json({
+			return await res.status(400).json({
 				message: "Need session_date and notes",
 			});
 		}
@@ -179,12 +178,7 @@ router.post("/:id/clients/:clientID/sessions", async (req, res, next) => {
 */
 router.get("/:id/sessions", async (req, res, next) => {
 	try {
-		const session = await coachDB.getCoachSessionsByID(req.params.id);
-
-		if (!session) {
-		}
-
-		res.status(200).json();
+		res.status(200).json(await coachDB.getCoachSessionsByID(req.params.id));
 	} catch (error) {
 		next(error);
 	}
@@ -214,12 +208,12 @@ router.get("/:id/sessions/:sessionID", async (req, res, next) => {
 	PUT
 	'/coach/:id/sessions/:sessionID'
 */
-router.put("/:id/sessions/:sessionID", async (req, res, next) => {
+router.put("/:id/sessions/:sessionID", (req, res, next) => {
 	try {
 		const { session_date, notes } = req.body;
 
 		if (!session_date || !notes) {
-			res.status(400).json({
+			return res.status(400).json({
 				message: "Need session_date and notes",
 			});
 		}
@@ -229,7 +223,138 @@ router.put("/:id/sessions/:sessionID", async (req, res, next) => {
 			notes: notes,
 		};
 
-		res.json(await coachDB.updateSessionByID(req.params.sessionID, payload));
+		res.json(coachDB.updateSessionByID(req.params.sessionID, payload));
+	} catch (error) {
+		next(error);
+	}
+});
+
+/*
+	GET
+	'/coach/:id/client/:clientID/goals'
+	This route retrieves the specific client goals belonging
+	to a specific coach.
+*/
+router.get("/:id/clients/:clientID/goals", async (req, res, next) => {
+	try {
+		res
+			.status(200)
+			.json(
+				await coachDB.getClientGoalsByClientID(
+					req.params.id,
+					req.params.clientID
+				)
+			);
+	} catch (err) {
+		next(err);
+	}
+});
+
+router.get("/:id/clients/:clientID/goals/:goalID", async (req, res, next) => {
+	try {
+		res
+			.status(200)
+			.json(
+				await coachDB.getClientGoalsByClientIDAndGoalID(
+					req.params.goalID,
+					req.params.clientID,
+					req.params.id
+				)
+			);
+	} catch (err) {
+		next(err);
+	}
+});
+/*
+	POST
+	add a client goal from the coach goal form for client
+*/
+router.post("/:id/clients/:clientID/goals", async (req, res, next) => {
+	try {
+		const { title, description, start_date, completed } = req.body;
+
+		if (!start_date || !title || !description) {
+			return await res.status(400).json({
+				message: "Need all goal info",
+			});
+		}
+		const payload = {
+			coach_id: req.params.id,
+			client_id: req.params.clientID,
+			start_date: start_date,
+			title: title,
+			description: description,
+			completed: completed,
+		};
+
+		res.status(201).json(await coachDB.addClientGoals(payload));
+	} catch (err) {
+		next(err);
+	}
+});
+/*
+	PUT
+	updates a client goal from the coach goal form for client
+*/
+router.put("/:id/clients/:clientID/goals/:goalID", async (req, res, next) => {
+	try {
+		const { title, description, start_date, completed } = req.body;
+
+		if (!start_date || !title || !description) {
+			return await res.status(400).json({
+				message: "Need all goal info",
+			});
+		}
+		const payload = {
+			coach_id: req.params.id,
+			client_id: req.params.clientID,
+			start_date: start_date,
+			title: title,
+			description: description,
+			completed: completed,
+		};
+
+		res
+			.status(201)
+			.json(await coachDB.updateClientGoal(req.params.goalID, payload));
+	} catch (err) {
+		next(err);
+	}
+});
+
+/*
+DELETE
+deletes goal by goalID
+*/
+router.delete(
+	"/:id/clients/:clientID/goals/:goalID",
+	async (req, res, next) => {
+		try {
+			return res
+				.status(200)
+				.json(await coachDB.deleteClientGoalbyID(req.params.goalID));
+		} catch (error) {
+			next(error);
+		}
+	}
+);
+
+router.get(`/:id/client_list/search`, async (req, res, next) => {
+	try {
+		const first_name = req.query.first_name;
+		const last_name = req.query.last_name;
+		console.log("first_name", first_name);
+		console.log("req.params.id", req.params.id);
+
+		res
+			.status(200)
+			.json(
+				await coachDB.searchForClientinCoachList(
+					first_name,
+					last_name,
+					req.params.id
+				)
+			);
 	} catch (error) {
 		next(error);
 	}
