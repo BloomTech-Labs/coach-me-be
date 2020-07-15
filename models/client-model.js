@@ -127,5 +127,19 @@ class ClientModel extends UserModel{
         }
     }
 
+    async getLonelyClients(){
+        try{
+            let ids =  await db('coach_client')
+                            .pluck('client_id')
+            
+            return await db('client')
+                            .whereNotIn('id', ids)
+
+        }catch(err){
+            throw(err)
+        }
+    }
 }
+
+
 module.exports = new ClientModel();
