@@ -13,8 +13,8 @@ const passport = require("passport");
 
 // Passport config
 require("./config/passport-local")(passport);
-require("./config/passport-google")(passport);
-require("./config/passport-facebook")(passport);
+// require("./config/passport-google")(passport);
+// require("./config/passport-facebook")(passport);
 
 const app = express();
 
@@ -32,11 +32,12 @@ app.use(require('cors')({
 	credentials: true,
 	origin: function(origin, cb){
 		if (whitelist.includes(origin) || !origin) {
-			cb(null, true)
-		  } else {
-			cb(new Error('Not allowed by CORS'))
-		  }
-	}
+			return cb(null, true)
+		} else {
+			return cb(new Error('Not allowed by CORS'))
+		}
+	},
+	methods: '*'
 }))
 app.use(express.json());
 app.use(require("cookie-parser")(process.env.SESSION_SECRET));
@@ -82,7 +83,6 @@ app.use((error, req, res, next) => {
 	logger.error(error);
 	errors++;
 	console.log(`You have ${errors} server errors. Someone is getting fired...`);
-	console.log(error.message);
 	return res.status(500).json("There was an internal server error");
 });
 
