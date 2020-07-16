@@ -135,6 +135,19 @@ class UserModel {
 		}
 	}
 
+	async addCoachingSession(coach_id, client_id, notes, date){
+		try {
+			return await db("sessions").insert({
+				date,
+				notes,
+				coach_id,
+				client_id
+			})
+		} catch (error) {
+			throw error;
+		}
+	}
+
 	// === ACCOUNT UTILITIES === //
 
 	async generateRecoveryToken(id, userType = 'client'){
