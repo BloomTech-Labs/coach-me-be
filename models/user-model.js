@@ -23,6 +23,9 @@ class UserModel {
 
 	async getUserById(id, userType = "client") {
 		try {
+			if(userType === 'client') {
+				return await db(userType).where({ id }).join('coach_client', 'client.id', '=','coach_client.client_id').first();
+			}
 			return await db(userType).where({ id }).first();
 		} catch (error) {
 			throw error;

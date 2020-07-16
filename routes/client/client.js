@@ -15,15 +15,17 @@ router.use('/:id/data', healthDataRouter);
 
 /* All Clients */
 router.get('/', async (req, res, next) => {
-  try {
-    const id = req.userID;
-    const clients = await clientDB.getAll();
-    if (!clients) res.status(404).json('No clients found.');
-    res.json({ ...client });
-  } catch (error) {
-    next(error);
-  }
-});
+	try {
+		const id = req.userID
+		const clients = await clientDB.getLonelyClients();
+		if (!clients) res.status(404).json("No clients found.");
+		res.json({ ...clients});
+	} catch (error) {
+		next(error);
+	}
+})
+
+
 
 /* Client Information */
 router.get('/:id', async (req, res, next) => {
