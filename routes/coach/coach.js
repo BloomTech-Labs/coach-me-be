@@ -351,9 +351,6 @@ router.get(`/:id/client_list/search`, async (req, res, next) => {
   try {
     const first_name = req.query.first_name;
     const last_name = req.query.last_name;
-    console.log('first_name', first_name);
-    console.log('req.params.id', req.params.id);
-
     res
       .status(200)
       .json(

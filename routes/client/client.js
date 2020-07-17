@@ -96,22 +96,20 @@ router.post(
     param('id').isUUID().withMessage('id must be a UUID'),
     param('coachID').isUUID().withMessage('sessionID'),
     body('notes').isString().withMessage('notes must be a string'),
-    body('date').isDate().withMessage('Date must be a date, duh'),
   ],
   async (req, res, next) => {
     try {
       const errors = validationResult(req);
-      if (errors) {
+      if (errors.length) {
         return res.status(400).json(errors.array());
       }
-
-      const { id, coachID } = req.param;
+      const { id, coachID } = req.params;
       const { notes, date } = req.body;
       await clientDB.addCoachingSession({
         client_id: id,
         coach_id: coachID,
         notes,
-        date,
+        date: new Date(date),
       });
 
       return res.status(201).json({
