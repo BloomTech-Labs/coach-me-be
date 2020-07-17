@@ -11,6 +11,7 @@ exports.up = async function (knex) {
 		tbl.timestamp("created_at").defaultTo(knex.fn.now());
 		tbl.timestamp("last_logged_in");
 		tbl.string("user_type").notNull().defaultTo("coach");
+		tbl.string('calendly_url').defaultTo('https://calendly.com/mr-bean/mr-bean-will-coach-you')
 	});
 };
 

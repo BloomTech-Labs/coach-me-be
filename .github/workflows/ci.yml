@@ -13,7 +13,7 @@ on:
 jobs:
   # A job to generate and publish code coverage
   coverage:
-# A more descriptive name of the job
+    # A more descriptive name of the job
     name: Test and publish test coverage
 
     # The OS on which the job will run
@@ -37,6 +37,11 @@ jobs:
         env:
           # An environment variable, the value is a GitHub repo secret
           CC_TEST_REPORTER_ID: ${{ secrets.CodeClimateReporterId }}
+          JWT_SECRET: ${{secrets.JWT_SECRET}}
+          SENDGRID_API_KEY: ${{secrets.SENDGRID_API_KEY}}
+          TWILIO_AUTH_TOKEN: ${{secrets.TWILIO_AUTH_TOKEN}}
+          TWILIO_SID: ${{secrets.TWILIO_SID}}
+
         with:
           # Run our `coverage` script in our `package.json`
           coverageCommand: npm run coverage
