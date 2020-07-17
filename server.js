@@ -1,7 +1,7 @@
 const express = require("express");
 const session = require("express-session");
 const Ddos = require("ddos");
-const ddos = new Ddos({ burst: 10, limit: 15 });
+
 const logger = require("log4js")
 	.configure({
 		appenders: { errors: { type: "file", filename: "errors.log" } },
@@ -20,7 +20,11 @@ const app = express();
 
 // Security
 app.use(require("helmet")());
-app.use(ddos.express);
+
+if(process.env.NODE_ENV !== 'development'){
+	const ddos = new Ddos({ burst: 10, limit: 15 });
+	app.use(ddos.express);
+}
 
 const whitelist = [
 	"http://localhost:3000",
