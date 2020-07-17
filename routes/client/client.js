@@ -61,6 +61,15 @@ router.delete("/:id", access.userOnly, async (req, res, next) => {
 });
 
 /* Client-Coach Session Notes */
+router.post("/:id/sessions", async (req, res, next) => {
+	try {
+		const clientSessions = await clientDB.getCoachingSessions(req.params.id);
+
+	} catch (error) {
+		next(error);
+	}
+});
+
 router.get("/:id/sessions", async (req, res, next) => {
 	try {
 		const clientSessions = await clientDB.getCoachingSessions(req.params.id);

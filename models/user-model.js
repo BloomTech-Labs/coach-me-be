@@ -124,6 +124,16 @@ class UserModel {
 		}
 	}
 
+	async addClientSession(session) {
+		try {
+			return await db("sessions")
+				.insert(session)
+				.then((data) => session);
+		} catch (error) {
+			throw error;
+		}
+	}
+
 	async getCoachingSession(id, userID, userType = "client") {
 		try {
 			return await db("sessions")
