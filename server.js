@@ -38,10 +38,11 @@ app.use(require('cors')({
 		if (whitelist.includes(origin) || !origin) {
 			return cb(null, true)
 		} else {
+			console.log('is it having an error?')
 			return cb(new Error('Not allowed by CORS'))
 		}
 	},
-	methods: '*'
+	methods: ['GET', 'POST', 'PUT', 'DELETE']
 }))
 app.use(express.json());
 app.use(require("cookie-parser")(process.env.SESSION_SECRET));

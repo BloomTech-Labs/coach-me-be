@@ -2,7 +2,7 @@ const router = require('express').Router();
 const coachDB = require('../../models/coach-models');
 const clientDB = require('../../models/client-model');
 const access = require('../../middleware/auth/globalPriv');
-const {param} = require('express-validator')
+const { param } = require('express-validator');
 
 /* MIDDLEWARE */
 router.use('/:id', require('../../middleware/pathValidator').checkID);
@@ -253,23 +253,27 @@ router.get('/:id/clients/:clientID/goals', async (req, res, next) => {
   }
 });
 
-router.get('/:id/clients/:clientID/goals/:goalID', [
-	param('id').isString().withMessage('id is required'),
-	param('clientID').isString().withMessage('clientID is required'),
-	param('goalID').isString().withMessage('goalID is required')
-], async (req, res, next) => {
-  try {
-    res.json(
-      await coachDB.getClientGoalsByClientIDAndGoalID(
-        req.params.goalID,
-        req.params.clientID,
-        req.params.id
-      )
-    );
-  } catch (err) {
-    next(err);
+router.get(
+  '/:id/clients/:clientID/goals/:goalID',
+  [
+    param('id').isString().withMessage('id is required'),
+    param('clientID').isString().withMessage('clientID is required'),
+    param('goalID').isString().withMessage('goalID is required'),
+  ],
+  async (req, res, next) => {
+    try {
+      res.json(
+        await coachDB.getClientGoalsByClientIDAndGoalID(
+          req.params.goalID,
+          req.params.clientID,
+          req.params.id
+        )
+      );
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 /*
 	POST
 	add a client goal from the coach goal form for client
@@ -294,7 +298,12 @@ router.post(
         description: description,
         completed: completed,
       };
-      res.status(201).json(await coachDB.addClientGoals(payload));
+      await coachDB.addClientGoals(payload);
+      const goals = await coachDB.getClientGoalsByClientID(
+        req.params.id,
+        req.params.clientID
+      );
+      res.status(201).json(goals);
     } catch (err) {
       next(err);
     }
@@ -321,10 +330,13 @@ router.put('/:id/clients/:clientID/goals/:goalID', async (req, res, next) => {
       description: description,
       completed: completed,
     };
-
-    res
-      .status(201)
-      .json(await coachDB.updateClientGoal(req.params.goalID, payload));
+    await coachDB.updateClientGoal(req.params.goalID, payload);
+    const updated = await coachDB.getClientGoalsByClientIDAndGoalID(
+      req.params.goalID,
+      req.params.clientID,
+      req.params.id
+    );
+    res.status(201).json(updated);
   } catch (err) {
     next(err);
   }
@@ -338,9 +350,12 @@ router.delete(
   '/:id/clients/:clientID/goals/:goalID',
   async (req, res, next) => {
     try {
-      return res
-        .status(200)
-        .json(await coachDB.deleteClientGoalbyID(req.params.goalID));
+      await coachDB.deleteClientGoalbyID(req.params.goalID);
+      const goals = await coachDB.getClientGoalsByClientID(
+        req.params.id,
+        req.params.clientID
+      );
+      res.status(200).json(goals);
     } catch (error) {
       next(error);
     }
