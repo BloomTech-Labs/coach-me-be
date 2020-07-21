@@ -1,7 +1,8 @@
 const pid = process.pid;
 const cluster = require('cluster');
 const os = require('os');
-const cpus = os.cpus().length
+const cpus = os.cpus().length;
+const withChat = require('./routes/chat/chat');
 
 require("dotenv").config();
 const server = require("./server");
@@ -17,7 +18,7 @@ if (cluster.isMaster){
    |    ^ ^		                        |
    |____________________________________________|
 	`)
-	for (let i = 0; i<cpus; i++){
+	for (let i = 0; i< 1; i++){
 		cluster.fork()
 	}
 } else { 
@@ -28,10 +29,9 @@ if (cluster.isMaster){
 	});
 
 	if (process.env.NODE_ENV != "test") {
-
-		server.listen(PORT, () =>
+		withChat(server.listen(PORT, () =>
 			console.log(`Listening on port ${PORT} PID: ${process.pid}`)
-		);
+		));
 	}
 }
 

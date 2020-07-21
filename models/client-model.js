@@ -24,6 +24,14 @@ class ClientModel extends UserModel{
         }
     }
 
+    async getAll(){
+        try {
+            return await this.getAllUsersByType('client');
+        } catch (error) {
+            throw error;
+        }
+    }
+
     /***
      * updateClientData takes two arguments, and inserts the updated user information.
      * @param {String} client_id - The selected user's id (UUID) for lookup
@@ -119,5 +127,19 @@ class ClientModel extends UserModel{
         }
     }
 
+    async getLonelyClients(){
+        try{
+            let ids =  await db('coach_client')
+                            .pluck('client_id')
+            
+            return await db('client')
+                            .whereNotIn('id', ids)
+
+        }catch(err){
+            throw(err)
+        }
+    }
 }
+
+
 module.exports = new ClientModel();

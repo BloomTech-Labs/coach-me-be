@@ -6,14 +6,14 @@ const bcrypt = require('bcrypt');
 
 class AccessController {
 
-    async protected(req, res, next){
+    protected(req, res, next){    
         if( !req.session.passport ) return res.status(401).json('Unauthorized');
-        next();
+        return next();
     }
 
     async private(req, res, next){
         try{
-            if( req.params.id === req.session.passport.user.id || req.session.passport.user.id === Client.getCoach( req.params.id ) ) return next();
+            if( req.userID === req.session.passport.user.id || req.session.passport.user.id === await Client.getCoach( req.userID ) ) return next();
             next(new httpError(401, 'You don\'t have permission to access that data.'));
         } catch(err){
             next(err);
