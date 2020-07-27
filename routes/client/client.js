@@ -75,8 +75,6 @@ router.post("/:id/sessions", async (req, res, next) => {
 router.get('/:id/sessions', async (req, res, next) => {
   try {
     const clientSessions = await clientDB.getCoachingSessions(req.params.id);
-    if (clientSessions.length < 1)
-      res.status(404).json('No coaching session records found for that user.');
     res.json(clientSessions);
   } catch (error) {
     next(error);
