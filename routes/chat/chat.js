@@ -25,28 +25,32 @@ const  chatConfig = app => {
 
         socket.emit("init", socket.id);
 
-        if( user.type === 'client' ){
-            try {
-                socket.emit('aClient');
-                const usersCoach = await client.getCoach( user.id );
-                if( users[usersCoach.id] ? true : false ) socket.emit('usersOnline', { [usersCoach.id]: users[usersCoach.id] });
-                else {
-                    socket.emit('noCoach');
-                }
-            } catch(err) {
-                console.error(err);
-            }
-        }
-        else {
-            if( user.type === 'coach '){
-                socket.emit('aCoach');
-            }
-            socket.emit('usersOnline', [...Object.keys(users).map(user => users[user])]);
-        }
+        socket.emit('usersOnline', [...Object.keys(users).map(user => users[user])].filter( userID => userID != user.id ));
+
+        // if( user.type === 'client' ){
+        //     try {
+        //         socket.emit('aClient');
+        //         const usersCoach = await client.getCoach( user.id );
+        //         if( users[usersCoach.id] ? true : false ) socket.emit('usersOnline', { [usersCoach.id]: users[usersCoach.id] });
+        //         else {
+        //             socket.emit('noCoach');
+        //         }
+        //     } catch(err) {
+        //         console.error(err);
+        //     }
+        // }
+        // else {
+        //     if( user.type === 'coach '){
+        //         socket.emit('aCoach');
+        //     }
+        //     socket.emit('usersOnline', [...Object.keys(users).map(user => users[user])]);
+        // }
 
         socket.on('disconnect', () => {
             delete users[user.id];
         });
+
+        socket.on('easy', () => console.log('SO EASY'))
 
         socket.on("callUser", (data) => {
             io.to(data.userToCall).emit('callRequest', {signal: data.signalData, from: data.from});

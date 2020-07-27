@@ -29,6 +29,7 @@ if(process.env.NODE_ENV !== 'development'){
 const whitelist = [
 	"http://localhost:3000",
 	"http://localhost:3001",
+	"https://f5f296270de9.ngrok.io",
 	process.env.CLIENT_URL,
 ];
 app.use(require('cors')({
@@ -39,6 +40,7 @@ app.use(require('cors')({
 			return cb(null, true)
 		} else {
 			console.log('is it having an error?')
+			console.log(origin);
 			return cb(new Error('Not allowed by CORS'))
 		}
 	},
